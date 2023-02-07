@@ -37,4 +37,8 @@ var solcVersions = map[string]solcVersion{
 		Path:   "solc-linux-amd64-v0.8.17+commit.8df45f5f",
 		Sha256: h("0x99f2070b776e9714f1f76c43c229cf99b8978a92938ee8d2364c6de11c1a03d4"),
 	},
+	"0.8.18": {
+		Path:   "solc-linux-amd64-v0.8.18+commit.87f61d96",
+		Sha256: h("0x95e6ed4949a63ad89afb443ecba1fb8302dd2860ee5e9baace3e674a0f48aa77"),
+	},
 }
