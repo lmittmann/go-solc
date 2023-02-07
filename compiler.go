@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/lmittmann/solc/debug"
 	"github.com/lmittmann/solc/internal"
 )
 
@@ -111,6 +112,11 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 	srcMap, err := buildSrcMap(absDir)
 	if err != nil {
 		return nil, err
+	}
+
+	// add debug.sol to src map
+	srcMap["debug.sol"] = src{
+		Content: debug.Src,
 	}
 
 	// build settings
