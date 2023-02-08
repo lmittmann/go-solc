@@ -14,6 +14,7 @@ import (
 
 	"github.com/lmittmann/solc/debug"
 	"github.com/lmittmann/solc/internal"
+	"golang.org/x/sync/singleflight"
 )
 
 var (
@@ -21,7 +22,17 @@ var (
 	binPath = ".solc/bin/"
 
 	perm = os.FileMode(0775)
+
+	// global compilation cache
+	group    = new(singleflight.Group)
+	cacheMux sync.RWMutex
+	cache    = make(map[string]cachItem)
 )
+
+type cachItem struct {
+	out *output
+	err error
+}
 
 func init() {
 	// check mod root is set
@@ -108,31 +119,49 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 		return nil, err
 	}
 
-	// build src map
-	srcMap, err := buildSrcMap(absDir)
+	// cache compilation run
+	out, err, _ := group.Do(absDir, func() (any, error) {
+		// check cache
+		cacheMux.RLock()
+		val, ok := cache[absDir]
+		cacheMux.RUnlock()
+		if ok {
+			return val.out, val.err
+		}
+
+		// build src map
+		srcMap, err := buildSrcMap(absDir)
+		if err != nil {
+			return nil, err
+		}
+
+		// add debug.sol to src map
+		srcMap["debug.sol"] = src{
+			Content: debug.Src,
+		}
+
+		// build settings
+		s := buildSettings(opts)
+		in := &input{
+			Lang:     s.Lang,
+			Sources:  srcMap,
+			Settings: s,
+		}
+
+		// run solc
+		out, err := c.run(absDir, in)
+
+		// update cache
+		cacheMux.Lock()
+		cache[absDir] = cachItem{out, err}
+		cacheMux.Unlock()
+
+		return out, err
+	})
 	if err != nil {
 		return nil, err
 	}
-
-	// add debug.sol to src map
-	srcMap["debug.sol"] = src{
-		Content: debug.Src,
-	}
-
-	// build settings
-	s := buildSettings(opts)
-	in := &input{
-		Lang:     s.Lang,
-		Sources:  srcMap,
-		Settings: s,
-	}
-
-	// run solc
-	out, err := c.run(absDir, in)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
+	return out.(*output), nil
 }
 
 func (c *Compiler) run(baseDir string, in *input) (*output, error) {
