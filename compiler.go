@@ -34,18 +34,6 @@ type cachItem struct {
 	err error
 }
 
-func init() {
-	// check mod root is set
-	if modRoot == "" {
-		panic("solc: no go.mod detected")
-	}
-
-	// create ".solc/bin/" dir if it doesn't exist
-	if err := os.MkdirAll(modRoot+binPath, perm); err != nil {
-		panic("solc: " + err.Error())
-	}
-}
-
 type Compiler struct {
 	Version string // Solc version
 
@@ -56,6 +44,19 @@ type Compiler struct {
 
 // init initializes the compiler.
 func (c *Compiler) init() {
+	// check mod root is set
+	if modRoot == "" {
+		c.err = fmt.Errorf("solc: no go.mod detected")
+		return
+	}
+
+	// create ".solc/bin/" dir if it doesn't exist
+	if err := os.MkdirAll(modRoot+binPath, perm); err != nil {
+		c.err = fmt.Errorf("solc: %w", err)
+		return
+	}
+
+	// check or download solc version
 	c.solcAbsPath, c.err = checkSolc(c.Version)
 }
 
