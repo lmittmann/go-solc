@@ -1,419 +1,94 @@
+//go:generate go run gen.go
 package debug
 
 import (
-	"bytes"
 	_ "embed"
 	"fmt"
-	"strings"
-	"text/template"
+	"math/big"
+	"testing"
+	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/ethereum/go-ethereum/core/vm"
 )
+
+// Source of the debug contracts.
+//
+//go:embed debug.sol
+var Src string
 
 var (
-	// Address of the debug contract.
-	addr = common.HexToAddress("0x000000000000000000000000000000000baDC0DE")
-
-	// Source of the debug contract.
-	Src string
-
-	funcs = map[[4]byte]abi.Arguments{}
-	args  = [][]string{
-		{"uint256"},
-		{"string"},
-		{"bool"},
-		{"address"},
-		{"uint256", "uint256"},
-		{"uint256", "string"},
-		{"uint256", "bool"},
-		{"uint256", "address"},
-		{"string", "uint256"},
-		{"string", "string"},
-		{"string", "bool"},
-		{"string", "address"},
-		{"bool", "uint256"},
-		{"bool", "string"},
-		{"bool", "bool"},
-		{"bool", "address"},
-		{"address", "uint256"},
-		{"address", "string"},
-		{"address", "bool"},
-		{"address", "address"},
-		{"uint256", "uint256", "uint256"},
-		{"uint256", "uint256", "string"},
-		{"uint256", "uint256", "bool"},
-		{"uint256", "uint256", "address"},
-		{"uint256", "string", "uint256"},
-		{"uint256", "string", "string"},
-		{"uint256", "string", "bool"},
-		{"uint256", "string", "address"},
-		{"uint256", "bool", "uint256"},
-		{"uint256", "bool", "string"},
-		{"uint256", "bool", "bool"},
-		{"uint256", "bool", "address"},
-		{"uint256", "address", "uint256"},
-		{"uint256", "address", "string"},
-		{"uint256", "address", "bool"},
-		{"uint256", "address", "address"},
-		{"string", "uint256", "uint256"},
-		{"string", "uint256", "string"},
-		{"string", "uint256", "bool"},
-		{"string", "uint256", "address"},
-		{"string", "string", "uint256"},
-		{"string", "string", "string"},
-		{"string", "string", "bool"},
-		{"string", "string", "address"},
-		{"string", "bool", "uint256"},
-		{"string", "bool", "string"},
-		{"string", "bool", "bool"},
-		{"string", "bool", "address"},
-		{"string", "address", "uint256"},
-		{"string", "address", "string"},
-		{"string", "address", "bool"},
-		{"string", "address", "address"},
-		{"bool", "uint256", "uint256"},
-		{"bool", "uint256", "string"},
-		{"bool", "uint256", "bool"},
-		{"bool", "uint256", "address"},
-		{"bool", "string", "uint256"},
-		{"bool", "string", "string"},
-		{"bool", "string", "bool"},
-		{"bool", "string", "address"},
-		{"bool", "bool", "uint256"},
-		{"bool", "bool", "string"},
-		{"bool", "bool", "bool"},
-		{"bool", "bool", "address"},
-		{"bool", "address", "uint256"},
-		{"bool", "address", "string"},
-		{"bool", "address", "bool"},
-		{"bool", "address", "address"},
-		{"address", "uint256", "uint256"},
-		{"address", "uint256", "string"},
-		{"address", "uint256", "bool"},
-		{"address", "uint256", "address"},
-		{"address", "string", "uint256"},
-		{"address", "string", "string"},
-		{"address", "string", "bool"},
-		{"address", "string", "address"},
-		{"address", "bool", "uint256"},
-		{"address", "bool", "string"},
-		{"address", "bool", "bool"},
-		{"address", "bool", "address"},
-		{"address", "address", "uint256"},
-		{"address", "address", "string"},
-		{"address", "address", "bool"},
-		{"address", "address", "address"},
-		{"uint256", "uint256", "uint256", "uint256"},
-		{"uint256", "uint256", "uint256", "string"},
-		{"uint256", "uint256", "uint256", "bool"},
-		{"uint256", "uint256", "uint256", "address"},
-		{"uint256", "uint256", "string", "uint256"},
-		{"uint256", "uint256", "string", "string"},
-		{"uint256", "uint256", "string", "bool"},
-		{"uint256", "uint256", "string", "address"},
-		{"uint256", "uint256", "bool", "uint256"},
-		{"uint256", "uint256", "bool", "string"},
-		{"uint256", "uint256", "bool", "bool"},
-		{"uint256", "uint256", "bool", "address"},
-		{"uint256", "uint256", "address", "uint256"},
-		{"uint256", "uint256", "address", "string"},
-		{"uint256", "uint256", "address", "bool"},
-		{"uint256", "uint256", "address", "address"},
-		{"uint256", "string", "uint256", "uint256"},
-		{"uint256", "string", "uint256", "string"},
-		{"uint256", "string", "uint256", "bool"},
-		{"uint256", "string", "uint256", "address"},
-		{"uint256", "string", "string", "uint256"},
-		{"uint256", "string", "string", "string"},
-		{"uint256", "string", "string", "bool"},
-		{"uint256", "string", "string", "address"},
-		{"uint256", "string", "bool", "uint256"},
-		{"uint256", "string", "bool", "string"},
-		{"uint256", "string", "bool", "bool"},
-		{"uint256", "string", "bool", "address"},
-		{"uint256", "string", "address", "uint256"},
-		{"uint256", "string", "address", "string"},
-		{"uint256", "string", "address", "bool"},
-		{"uint256", "string", "address", "address"},
-		{"uint256", "bool", "uint256", "uint256"},
-		{"uint256", "bool", "uint256", "string"},
-		{"uint256", "bool", "uint256", "bool"},
-		{"uint256", "bool", "uint256", "address"},
-		{"uint256", "bool", "string", "uint256"},
-		{"uint256", "bool", "string", "string"},
-		{"uint256", "bool", "string", "bool"},
-		{"uint256", "bool", "string", "address"},
-		{"uint256", "bool", "bool", "uint256"},
-		{"uint256", "bool", "bool", "string"},
-		{"uint256", "bool", "bool", "bool"},
-		{"uint256", "bool", "bool", "address"},
-		{"uint256", "bool", "address", "uint256"},
-		{"uint256", "bool", "address", "string"},
-		{"uint256", "bool", "address", "bool"},
-		{"uint256", "bool", "address", "address"},
-		{"uint256", "address", "uint256", "uint256"},
-		{"uint256", "address", "uint256", "string"},
-		{"uint256", "address", "uint256", "bool"},
-		{"uint256", "address", "uint256", "address"},
-		{"uint256", "address", "string", "uint256"},
-		{"uint256", "address", "string", "string"},
-		{"uint256", "address", "string", "bool"},
-		{"uint256", "address", "string", "address"},
-		{"uint256", "address", "bool", "uint256"},
-		{"uint256", "address", "bool", "string"},
-		{"uint256", "address", "bool", "bool"},
-		{"uint256", "address", "bool", "address"},
-		{"uint256", "address", "address", "uint256"},
-		{"uint256", "address", "address", "string"},
-		{"uint256", "address", "address", "bool"},
-		{"uint256", "address", "address", "address"},
-		{"string", "uint256", "uint256", "uint256"},
-		{"string", "uint256", "uint256", "string"},
-		{"string", "uint256", "uint256", "bool"},
-		{"string", "uint256", "uint256", "address"},
-		{"string", "uint256", "string", "uint256"},
-		{"string", "uint256", "string", "string"},
-		{"string", "uint256", "string", "bool"},
-		{"string", "uint256", "string", "address"},
-		{"string", "uint256", "bool", "uint256"},
-		{"string", "uint256", "bool", "string"},
-		{"string", "uint256", "bool", "bool"},
-		{"string", "uint256", "bool", "address"},
-		{"string", "uint256", "address", "uint256"},
-		{"string", "uint256", "address", "string"},
-		{"string", "uint256", "address", "bool"},
-		{"string", "uint256", "address", "address"},
-		{"string", "string", "uint256", "uint256"},
-		{"string", "string", "uint256", "string"},
-		{"string", "string", "uint256", "bool"},
-		{"string", "string", "uint256", "address"},
-		{"string", "string", "string", "uint256"},
-		{"string", "string", "string", "string"},
-		{"string", "string", "string", "bool"},
-		{"string", "string", "string", "address"},
-		{"string", "string", "bool", "uint256"},
-		{"string", "string", "bool", "string"},
-		{"string", "string", "bool", "bool"},
-		{"string", "string", "bool", "address"},
-		{"string", "string", "address", "uint256"},
-		{"string", "string", "address", "string"},
-		{"string", "string", "address", "bool"},
-		{"string", "string", "address", "address"},
-		{"string", "bool", "uint256", "uint256"},
-		{"string", "bool", "uint256", "string"},
-		{"string", "bool", "uint256", "bool"},
-		{"string", "bool", "uint256", "address"},
-		{"string", "bool", "string", "uint256"},
-		{"string", "bool", "string", "string"},
-		{"string", "bool", "string", "bool"},
-		{"string", "bool", "string", "address"},
-		{"string", "bool", "bool", "uint256"},
-		{"string", "bool", "bool", "string"},
-		{"string", "bool", "bool", "bool"},
-		{"string", "bool", "bool", "address"},
-		{"string", "bool", "address", "uint256"},
-		{"string", "bool", "address", "string"},
-		{"string", "bool", "address", "bool"},
-		{"string", "bool", "address", "address"},
-		{"string", "address", "uint256", "uint256"},
-		{"string", "address", "uint256", "string"},
-		{"string", "address", "uint256", "bool"},
-		{"string", "address", "uint256", "address"},
-		{"string", "address", "string", "uint256"},
-		{"string", "address", "string", "string"},
-		{"string", "address", "string", "bool"},
-		{"string", "address", "string", "address"},
-		{"string", "address", "bool", "uint256"},
-		{"string", "address", "bool", "string"},
-		{"string", "address", "bool", "bool"},
-		{"string", "address", "bool", "address"},
-		{"string", "address", "address", "uint256"},
-		{"string", "address", "address", "string"},
-		{"string", "address", "address", "bool"},
-		{"string", "address", "address", "address"},
-		{"bool", "uint256", "uint256", "uint256"},
-		{"bool", "uint256", "uint256", "string"},
-		{"bool", "uint256", "uint256", "bool"},
-		{"bool", "uint256", "uint256", "address"},
-		{"bool", "uint256", "string", "uint256"},
-		{"bool", "uint256", "string", "string"},
-		{"bool", "uint256", "string", "bool"},
-		{"bool", "uint256", "string", "address"},
-		{"bool", "uint256", "bool", "uint256"},
-		{"bool", "uint256", "bool", "string"},
-		{"bool", "uint256", "bool", "bool"},
-		{"bool", "uint256", "bool", "address"},
-		{"bool", "uint256", "address", "uint256"},
-		{"bool", "uint256", "address", "string"},
-		{"bool", "uint256", "address", "bool"},
-		{"bool", "uint256", "address", "address"},
-		{"bool", "string", "uint256", "uint256"},
-		{"bool", "string", "uint256", "string"},
-		{"bool", "string", "uint256", "bool"},
-		{"bool", "string", "uint256", "address"},
-		{"bool", "string", "string", "uint256"},
-		{"bool", "string", "string", "string"},
-		{"bool", "string", "string", "bool"},
-		{"bool", "string", "string", "address"},
-		{"bool", "string", "bool", "uint256"},
-		{"bool", "string", "bool", "string"},
-		{"bool", "string", "bool", "bool"},
-		{"bool", "string", "bool", "address"},
-		{"bool", "string", "address", "uint256"},
-		{"bool", "string", "address", "string"},
-		{"bool", "string", "address", "bool"},
-		{"bool", "string", "address", "address"},
-		{"bool", "bool", "uint256", "uint256"},
-		{"bool", "bool", "uint256", "string"},
-		{"bool", "bool", "uint256", "bool"},
-		{"bool", "bool", "uint256", "address"},
-		{"bool", "bool", "string", "uint256"},
-		{"bool", "bool", "string", "string"},
-		{"bool", "bool", "string", "bool"},
-		{"bool", "bool", "string", "address"},
-		{"bool", "bool", "bool", "uint256"},
-		{"bool", "bool", "bool", "string"},
-		{"bool", "bool", "bool", "bool"},
-		{"bool", "bool", "bool", "address"},
-		{"bool", "bool", "address", "uint256"},
-		{"bool", "bool", "address", "string"},
-		{"bool", "bool", "address", "bool"},
-		{"bool", "bool", "address", "address"},
-		{"bool", "address", "uint256", "uint256"},
-		{"bool", "address", "uint256", "string"},
-		{"bool", "address", "uint256", "bool"},
-		{"bool", "address", "uint256", "address"},
-		{"bool", "address", "string", "uint256"},
-		{"bool", "address", "string", "string"},
-		{"bool", "address", "string", "bool"},
-		{"bool", "address", "string", "address"},
-		{"bool", "address", "bool", "uint256"},
-		{"bool", "address", "bool", "string"},
-		{"bool", "address", "bool", "bool"},
-		{"bool", "address", "bool", "address"},
-		{"bool", "address", "address", "uint256"},
-		{"bool", "address", "address", "string"},
-		{"bool", "address", "address", "bool"},
-		{"bool", "address", "address", "address"},
-		{"address", "uint256", "uint256", "uint256"},
-		{"address", "uint256", "uint256", "string"},
-		{"address", "uint256", "uint256", "bool"},
-		{"address", "uint256", "uint256", "address"},
-		{"address", "uint256", "string", "uint256"},
-		{"address", "uint256", "string", "string"},
-		{"address", "uint256", "string", "bool"},
-		{"address", "uint256", "string", "address"},
-		{"address", "uint256", "bool", "uint256"},
-		{"address", "uint256", "bool", "string"},
-		{"address", "uint256", "bool", "bool"},
-		{"address", "uint256", "bool", "address"},
-		{"address", "uint256", "address", "uint256"},
-		{"address", "uint256", "address", "string"},
-		{"address", "uint256", "address", "bool"},
-		{"address", "uint256", "address", "address"},
-		{"address", "string", "uint256", "uint256"},
-		{"address", "string", "uint256", "string"},
-		{"address", "string", "uint256", "bool"},
-		{"address", "string", "uint256", "address"},
-		{"address", "string", "string", "uint256"},
-		{"address", "string", "string", "string"},
-		{"address", "string", "string", "bool"},
-		{"address", "string", "string", "address"},
-		{"address", "string", "bool", "uint256"},
-		{"address", "string", "bool", "string"},
-		{"address", "string", "bool", "bool"},
-		{"address", "string", "bool", "address"},
-		{"address", "string", "address", "uint256"},
-		{"address", "string", "address", "string"},
-		{"address", "string", "address", "bool"},
-		{"address", "string", "address", "address"},
-		{"address", "bool", "uint256", "uint256"},
-		{"address", "bool", "uint256", "string"},
-		{"address", "bool", "uint256", "bool"},
-		{"address", "bool", "uint256", "address"},
-		{"address", "bool", "string", "uint256"},
-		{"address", "bool", "string", "string"},
-		{"address", "bool", "string", "bool"},
-		{"address", "bool", "string", "address"},
-		{"address", "bool", "bool", "uint256"},
-		{"address", "bool", "bool", "string"},
-		{"address", "bool", "bool", "bool"},
-		{"address", "bool", "bool", "address"},
-		{"address", "bool", "address", "uint256"},
-		{"address", "bool", "address", "string"},
-		{"address", "bool", "address", "bool"},
-		{"address", "bool", "address", "address"},
-		{"address", "address", "uint256", "uint256"},
-		{"address", "address", "uint256", "string"},
-		{"address", "address", "uint256", "bool"},
-		{"address", "address", "uint256", "address"},
-		{"address", "address", "string", "uint256"},
-		{"address", "address", "string", "string"},
-		{"address", "address", "string", "bool"},
-		{"address", "address", "string", "address"},
-		{"address", "address", "bool", "uint256"},
-		{"address", "address", "bool", "string"},
-		{"address", "address", "bool", "bool"},
-		{"address", "address", "bool", "address"},
-		{"address", "address", "address", "uint256"},
-		{"address", "address", "address", "string"},
-		{"address", "address", "address", "bool"},
-		{"address", "address", "address", "address"},
-	}
-
-	//go:embed debug.template.sol
-	debugTmplSrc string
-	debugTmpl    = template.Must(
-		template.New("debug.sol").
-			Funcs(template.FuncMap{
-				"typeToArg": typeToArg,
-			}).
-			Parse(debugTmplSrc),
-	)
+	argString  = abi.Argument{Type: abi.Type{T: abi.StringTy}}
+	argUint    = abi.Argument{Type: abi.Type{T: abi.UintTy, Size: 256}}
+	argInt     = abi.Argument{Type: abi.Type{T: abi.IntTy, Size: 256}}
+	argBool    = abi.Argument{Type: abi.Type{T: abi.BoolTy}}
+	argAddress = abi.Argument{Type: abi.Type{T: abi.AddressTy, Size: 20}}
+	argBytes32 = abi.Argument{Type: abi.Type{T: abi.FixedBytesTy, Size: 32}}
+	argBytes   = abi.Argument{Type: abi.Type{T: abi.BytesTy}}
 )
 
-func init() {
-	// generate debug.sol from template
-	buf := bytes.NewBuffer(nil)
-	if err := debugTmpl.Execute(buf, &model{
-		Addr:       addr,
-		Signatures: args,
-	}); err != nil {
-		panic(fmt.Sprintf("debug: %v", err))
+// NewTracer returns a [vm.EVMLogger] that prints debug calls.
+func NewTracer(tb testing.TB) vm.EVMLogger {
+	tb.Helper()
+	return &tracer{tb: tb}
+}
+
+type tracer struct {
+	tb testing.TB
+}
+
+func (*tracer) CaptureTxStart(uint64) {}
+func (*tracer) CaptureTxEnd(uint64)   {}
+func (*tracer) CaptureStart(*vm.EVM, common.Address, common.Address, bool, []byte, uint64, *big.Int) {
+}
+func (*tracer) CaptureEnd([]byte, uint64, time.Duration, error) {}
+
+func (t *tracer) CaptureEnter(typ vm.OpCode, from common.Address, to common.Address, input []byte, gas uint64, value *big.Int) {
+	if to != addr || len(input) < 4 {
+		return
 	}
-	Src = buf.String()
 
-	// generate funcs
-	for _, a := range args {
-		sig := "log(" + strings.Join(a, ",") + ")"
-		sel := *(*[4]byte)(crypto.Keccak256([]byte(sig))[:4])
+	sel := *(*[4]byte)(input[:4])
+	args, ok := args[sel]
+	if ok {
+		t.logConsole(args, input[4:])
+	} else {
+		t.logMemory(input)
+	}
+}
 
-		abiArgs := make(abi.Arguments, len(a))
-		for i, arg := range a {
-			typ, err := abi.NewType(arg, "", nil)
-			if err != nil {
-				panic(fmt.Sprintf("debug: %v", err))
-			}
-			abiArgs[i] = abi.Argument{Type: typ}
+func (*tracer) CaptureExit([]byte, uint64, error) {}
+func (*tracer) CaptureState(uint64, vm.OpCode, uint64, uint64, *vm.ScopeContext, []byte, int, error) {
+}
+func (*tracer) CaptureFault(uint64, vm.OpCode, uint64, uint64, *vm.ScopeContext, int, error) {}
+
+func (t *tracer) logConsole(args abi.Arguments, data []byte) {
+	params, err := args.Unpack(data)
+	if err != nil {
+		t.tb.Fatalf("malformed log: %v", err)
+	}
+
+	for i, p := range params {
+		switch p := p.(type) {
+		case []byte:
+			params[i] = hexutil.Bytes(p)
 		}
-		funcs[sel] = abiArgs
 	}
+
+	t.tb.Log(params...)
 }
 
-type model struct {
-	Addr       common.Address
-	Signatures [][]string
-}
-
-func typeToArg(t string) string {
-	switch t {
-	case "bytes":
-		return "bytes memory"
-	case "string":
-		return "string memory"
-	default:
-		return t
+func (t *tracer) logMemory(data []byte) {
+	var str string
+	for i := 0; i < len(data); i += 32 {
+		end := i + 32
+		if end > len(data) {
+			end = len(data)
+		}
+		str += fmt.Sprintf("\n%4x | %x", i, data[i:end])
 	}
+
+	t.tb.Log("Memory:", str)
 }

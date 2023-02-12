@@ -10,20 +10,16 @@ library console {
         }
     }
 
-    {{- range .Signatures }}
+    {{- range .Args }}
 
     function log(
-        {{- range $index, $type := . -}}
+        {{- range $index, $type := .Args -}}
             {{- if $index }}, {{ end -}}
             {{ $type | typeToArg }} arg{{ $index }}
         {{- end -}}
     ) internal view {
-        _log(abi.encodeWithSignature("log(
-            {{- range $index, $type := . -}}
-                {{- if $index }},{{ end -}}
-                {{- $type -}}
-            {{- end -}}
-        )", {{ range $index, $type := . -}}
+        _log(abi.encodeWithSelector({{ printf "0x%8x" .Sel -}}
+        , {{ range $index, $type := .Args -}}
                 {{- if $index }}, {{ end -}}
                 arg{{ $index -}}
             {{- end -}}
