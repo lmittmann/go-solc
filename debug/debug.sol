@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.5.0 <0.9.0;
 
-address constant ADDRESS = 0x000000000000000000000000000000000baDC0DE;
-
 library console {
     function _log(bytes memory data) internal view {
         assembly {
-            pop(staticcall(gas(), ADDRESS, add(data, 0x20), mload(data), 0, 0))
+            pop(staticcall(gas(), 0x000000000000000000000000000000000baDC0DE, add(data, 0x20), mload(data), 0, 0))
         }
     }
 
@@ -1235,13 +1233,13 @@ library console {
 library state {
     function dumpMemory() internal view {
         assembly {
-            pop(staticcall(gas(), ADDRESS, 0, mload(0x40), 0, 0))
+            pop(staticcall(gas(), 0x000000000000000000000000000000000baDC0DE, 0, mload(0x40), 0, 0))
         }
     }
 
     function dumpMemory(uint start, uint length) internal view {
         assembly {
-            pop(staticcall(gas(), ADDRESS, start, length, 0, 0))
+            pop(staticcall(gas(), 0x000000000000000000000000000000000baDC0DE, start, length, 0, 0))
         }
     }
 }

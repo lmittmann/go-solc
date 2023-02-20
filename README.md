@@ -12,17 +12,16 @@ go get github.com/lmittmann/solc
 
 ## Getting Started
 
-`solc` will automatically download the specified version of the Solidity compiler from [`binaries.soliditylang.org`](https://binaries.soliditylang.org) and caches it at `.solc/bin/`.
+`solc` automatically downloads the specified version of the Solidity compiler from [`binaries.soliditylang.org`](https://binaries.soliditylang.org) and caches it at `.solc/bin/`.
 
-Example test that will panic if the contract cannot be compiled:
+Example test:
 ```go
 // contract_test.go
-var (
-    c        = &solc.Compiler{Version: "0.8.17"}
-    contract = c.MustCompile("src", "Test")
-)
-
 func TestContract(t *testing.T) {
+    c := &solc.Compiler{Version: "0.8.18"}
+    contract, err := c.Compile("src", "Test",
+        solc.WithOptimizer(&solc.Optimizer{Enabled: true, Runs: 999999}),
+    )
     // ...
 }
 ```
@@ -32,7 +31,7 @@ Example directory structure:
 workspace/
 ├── .solc/
 │   └── bin/ # cached solc binaries
-│       └── solc_v0.8.17
+│       └── solc_v0.8.18
 ├── src/
 │   └── test.sol
 ├── contract_test.go

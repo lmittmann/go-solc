@@ -9,7 +9,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strconv"
 	"sync"
 
 	"github.com/lmittmann/solc/debug"
@@ -60,7 +59,7 @@ func (c *Compiler) init() {
 	c.solcAbsPath, c.err = checkSolc(c.Version)
 }
 
-// Compile all contracts in the given directory and returns the contract code of
+// Compile all contracts in the given directory and return the contract code of
 // the contract with the given name.
 func (c *Compiler) Compile(dir, contract string, opts ...Option) (*Contract, error) {
 	out, err := c.compile(dir, contract, opts)
@@ -121,10 +120,11 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 	}
 
 	// cache compilation run
-	out, err, _ := group.Do(absDir, func() (any, error) {
+	groupKey := c.Version + absDir
+	out, err, _ := group.Do(groupKey, func() (any, error) {
 		// check cache
 		cacheMux.RLock()
-		val, ok := cache[absDir]
+		val, ok := cache[groupKey]
 		cacheMux.RUnlock()
 		if ok {
 			return val.out, val.err
@@ -142,7 +142,7 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 		}
 
 		// build settings
-		s := buildSettings(opts)
+		s := c.buildSettings(opts)
 		in := &input{
 			Lang:     s.Lang,
 			Sources:  srcMap,
@@ -154,7 +154,7 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 
 		// update cache
 		cacheMux.Lock()
-		cache[absDir] = cachItem{out, err}
+		cache[groupKey] = cachItem{out, err}
 		cacheMux.Unlock()
 
 		return out, err
@@ -176,7 +176,7 @@ func (c *Compiler) run(baseDir string, in *input) (*output, error) {
 
 	// run solc
 	ex := exec.Command(c.solcAbsPath,
-		"--allow-paths", strconv.Quote(baseDir),
+		"--allow-paths", baseDir,
 		"--standard-json",
 	)
 	ex.Stdin = inputBuf
@@ -213,7 +213,11 @@ func buildSrcMap(absDir string) (map[string]src, error) {
 }
 
 // buildSettings builds the default settings and applies all options.
-func buildSettings(opts []Option) *Settings {
+func (c *Compiler) buildSettings(opts []Option) *Settings {
+	defaultEVMVersion, ok := defaultEVMVersions[c.Version]
+	if !ok {
+		panic("unexpected solc version")
+	}
 	s := &Settings{
 		Lang:       defaultLang,
 		Remappings: defaultRemappings,
