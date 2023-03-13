@@ -12,12 +12,11 @@ import (
 	"sync"
 
 	"github.com/lmittmann/solc/debug"
-	"github.com/lmittmann/solc/internal"
+	"github.com/lmittmann/solc/internal/mod"
 	"golang.org/x/sync/singleflight"
 )
 
 var (
-	modRoot = internal.ModRoot()
 	binPath = ".solc/bin/"
 
 	perm = os.FileMode(0775)
@@ -44,13 +43,13 @@ type Compiler struct {
 // init initializes the compiler.
 func (c *Compiler) init() {
 	// check mod root is set
-	if modRoot == "" {
+	if mod.Root == "" {
 		c.err = fmt.Errorf("solc: no go.mod detected")
 		return
 	}
 
 	// create ".solc/bin/" dir if it doesn't exist
-	if err := os.MkdirAll(modRoot+binPath, perm); err != nil {
+	if err := os.MkdirAll(mod.Root+binPath, perm); err != nil {
 		c.err = fmt.Errorf("solc: %w", err)
 		return
 	}

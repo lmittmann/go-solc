@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/lmittmann/solc/internal/mod"
 	"golang.org/x/sync/singleflight"
 )
 
@@ -27,7 +28,7 @@ func checkSolc(version string) (string, error) {
 		return "", fmt.Errorf("solc: unknown version %q", version)
 	}
 
-	absSolcPath := fmt.Sprintf("%s%ssolc_v%s", modRoot, binPath, version)
+	absSolcPath := fmt.Sprintf("%s%ssolc_v%s", mod.Root, binPath, version)
 
 	f, err := os.Open(absSolcPath)
 	if err == nil {
