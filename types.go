@@ -162,24 +162,6 @@ func b(hexBytes string) []byte {
 	return bytes
 }
 
-// h returns a hash from a hexstring or panics if the hexstring does not
-// represent a valid hash.
-func h(hexHash string) (hash [32]byte) {
-	if !has0xPrefix(hexHash) {
-		panic(fmt.Sprintf("hex hash %q must have 0x prefix", hexHash))
-	}
-	if len(hexHash) != 66 {
-		panic(fmt.Sprintf("hex hash %q must have 32 bytes", hexHash))
-	}
-
-	b, err := hex.DecodeString(hexHash[2:])
-	if err != nil {
-		panic(err)
-	}
-	copy(hash[:], b)
-	return hash
-}
-
 // has0xPrefix validates hexStr begins with '0x' or '0X'.
 func has0xPrefix(hexStr string) bool {
 	return len(hexStr) >= 2 && hexStr[0] == '0' && hexStr[1] == 'x'

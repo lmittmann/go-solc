@@ -1,5 +1,4 @@
-//go:build !(linux || darwin)
-
+//go:generate go run params_gen.go
 package solc
 
 var solcBaseURL = ""
