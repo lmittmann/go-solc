@@ -69,6 +69,7 @@ var (
 		"0.8.16": EVMVersionLondon,
 		"0.8.17": EVMVersionLondon,
 		"0.8.18": EVMVersionParis,
+		"0.8.19": EVMVersionParis,
 	}
 )
 
