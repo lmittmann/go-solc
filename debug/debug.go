@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math/big"
 	"testing"
-	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
@@ -43,7 +42,7 @@ func (*tracer) CaptureTxStart(uint64) {}
 func (*tracer) CaptureTxEnd(uint64)   {}
 func (*tracer) CaptureStart(*vm.EVM, common.Address, common.Address, bool, []byte, uint64, *big.Int) {
 }
-func (*tracer) CaptureEnd([]byte, uint64, time.Duration, error) {}
+func (*tracer) CaptureEnd([]byte, uint64, error) {}
 
 func (t *tracer) CaptureEnter(typ vm.OpCode, from common.Address, to common.Address, input []byte, gas uint64, value *big.Int) {
 	if to != addr || len(input) < 4 {
