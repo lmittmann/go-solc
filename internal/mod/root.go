@@ -13,7 +13,7 @@ func init() {
 	stdout, _ := exec.Command("go", "env", "GOMOD").Output()
 
 	var ok bool
-	Root, ok = strings.CutSuffix(strings.TrimSpace(string(stdout)), "go.mod")
+	Root, ok = strings.CutSuffix(strings.TrimSpace(string(stdout)), "/go.mod")
 	if !ok {
 		Root = ""
 	}

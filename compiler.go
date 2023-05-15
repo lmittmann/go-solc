@@ -49,7 +49,7 @@ func (c *Compiler) init() {
 	}
 
 	// create ".solc/bin/" dir if it doesn't exist
-	if err := os.MkdirAll(mod.Root+binPath, perm); err != nil {
+	if err := os.MkdirAll(filepath.Join(mod.Root, binPath), perm); err != nil {
 		c.err = fmt.Errorf("solc: %w", err)
 		return
 	}
