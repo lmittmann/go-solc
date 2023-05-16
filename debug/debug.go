@@ -35,21 +35,16 @@ func NewTracer(tb testing.TB) vm.EVMLogger {
 }
 
 type tracer struct {
+	vm.EVMLogger
 	tb testing.TB
 }
-
-func (*tracer) CaptureTxStart(uint64) {}
-func (*tracer) CaptureTxEnd(uint64)   {}
-func (*tracer) CaptureStart(*vm.EVM, common.Address, common.Address, bool, []byte, uint64, *big.Int) {
-}
-func (*tracer) CaptureEnd([]byte, uint64, error) {}
 
 func (t *tracer) CaptureEnter(typ vm.OpCode, from common.Address, to common.Address, input []byte, gas uint64, value *big.Int) {
 	if to != addr || len(input) < 4 {
 		return
 	}
 
-	sel := *(*[4]byte)(input[:4])
+	sel := ([4]byte)(input[:4])
 	args, ok := args[sel]
 	if ok {
 		t.logConsole(args, input[4:])
@@ -57,11 +52,6 @@ func (t *tracer) CaptureEnter(typ vm.OpCode, from common.Address, to common.Addr
 		t.logMemory(input)
 	}
 }
-
-func (*tracer) CaptureExit([]byte, uint64, error) {}
-func (*tracer) CaptureState(uint64, vm.OpCode, uint64, uint64, *vm.ScopeContext, []byte, int, error) {
-}
-func (*tracer) CaptureFault(uint64, vm.OpCode, uint64, uint64, *vm.ScopeContext, int, error) {}
 
 func (t *tracer) logConsole(args abi.Arguments, data []byte) {
 	params, err := args.Unpack(data)
