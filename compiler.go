@@ -24,10 +24,10 @@ var (
 	// global compilation cache
 	group    = new(singleflight.Group)
 	cacheMux sync.RWMutex
-	cache    = make(map[string]cachItem)
+	cache    = make(map[string]cacheItem)
 )
 
-type cachItem struct {
+type cacheItem struct {
 	out *output
 	err error
 }
@@ -109,7 +109,7 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 
 	// check the directory exists
 	if stat, err := os.Stat(baseDir); err != nil || !stat.IsDir() {
-		return nil, fmt.Errorf("solc: %w", err)
+		return nil, err
 	}
 
 	// get absolute path of base directory
@@ -153,7 +153,7 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 
 		// update cache
 		cacheMux.Lock()
-		cache[groupKey] = cachItem{out, err}
+		cache[groupKey] = cacheItem{out, err}
 		cacheMux.Unlock()
 
 		return out, err
