@@ -3,7 +3,7 @@ module github.com/lmittmann/solc
 go 1.20
 
 require (
-	github.com/ethereum/go-ethereum v1.11.6
+	github.com/ethereum/go-ethereum v1.12.0
 	github.com/google/go-cmp v0.5.9
 	golang.org/x/sync v0.2.0
 )
@@ -14,5 +14,5 @@ require (
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/holiman/uint256 v1.2.2-0.20230321075855-87b91420868c // indirect
 	golang.org/x/crypto v0.1.0 // indirect
-	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
 )
