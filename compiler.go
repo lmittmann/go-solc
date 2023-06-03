@@ -2,6 +2,7 @@ package solc
 
 import (
 	"bytes"
+	"crypto/sha256"
 	_ "embed"
 	"encoding/json"
 	"fmt"
@@ -17,11 +18,12 @@ import (
 )
 
 var (
+	// The path within the module root where solc binaries are stored.
 	binPath = ".solc/bin/"
 
 	perm = os.FileMode(0775)
 
-	// global compilation cache
+	// global compiler cache
 	group    = new(singleflight.Group)
 	cacheMux sync.RWMutex
 	cache    = make(map[string]cacheItem)
@@ -118,42 +120,55 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 		return nil, err
 	}
 
-	// cache compilation run
-	groupKey := c.Version + absDir
-	out, err, _ := group.Do(groupKey, func() (any, error) {
+	// build src map
+	srcMap, err := buildSrcMap(absDir)
+	if err != nil {
+		return nil, err
+	}
+
+	// add debug.sol to src map
+	srcMap["debug.sol"] = src{
+		Content: debug.Src,
+	}
+
+	// build settings
+	s := c.buildSettings(opts)
+	in := &input{
+		Lang:     s.Lang,
+		Sources:  srcMap,
+		Settings: s,
+	}
+
+	// run solc
+	return c.runWithCache(absDir, in)
+}
+
+func (c *Compiler) runWithCache(baseDir string, in *input) (*output, error) {
+	// hash input
+	h := sha256.New()
+	if err := json.NewEncoder(h).Encode(in); err != nil {
+		return nil, err
+	}
+	var hash [32]byte
+	h.Sum(hash[:0])
+
+	// run with cache
+	cacheKey := fmt.Sprintf("%s_%x", c.Version, hash)
+	out, err, _ := group.Do(cacheKey, func() (any, error) {
 		// check cache
 		cacheMux.RLock()
-		val, ok := cache[groupKey]
+		val, ok := cache[cacheKey]
 		cacheMux.RUnlock()
 		if ok {
 			return val.out, val.err
 		}
 
-		// build src map
-		srcMap, err := buildSrcMap(absDir)
-		if err != nil {
-			return nil, err
-		}
-
-		// add debug.sol to src map
-		srcMap["debug.sol"] = src{
-			Content: debug.Src,
-		}
-
-		// build settings
-		s := c.buildSettings(opts)
-		in := &input{
-			Lang:     s.Lang,
-			Sources:  srcMap,
-			Settings: s,
-		}
-
 		// run solc
-		out, err := c.run(absDir, in)
+		out, err := c.run(baseDir, in)
 
 		// update cache
 		cacheMux.Lock()
-		cache[groupKey] = cacheItem{out, err}
+		cache[cacheKey] = cacheItem{out, err}
 		cacheMux.Unlock()
 
 		return out, err
