@@ -2,7 +2,7 @@ package solc
 
 // default settings options
 var (
-	defaultLang                     = LangSolidity
+	defaultLang                     = langSolidity
 	defaultRemappings      []string = nil
 	defaultOptimizer                = &Optimizer{Enabled: true, Runs: 200}
 	defaultViaIR                    = false

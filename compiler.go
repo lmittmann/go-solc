@@ -96,7 +96,7 @@ func (c *Compiler) Compile(dir, contract string, opts ...Option) (*Contract, err
 func (c *Compiler) MustCompile(dir, contract string, opts ...Option) *Contract {
 	code, err := c.Compile(dir, contract, opts...)
 	if err != nil {
-		panic(fmt.Sprintf("solc: %v", err))
+		panic(err)
 	}
 	return code
 }
@@ -134,7 +134,7 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 	// build settings
 	s := c.buildSettings(opts)
 	in := &input{
-		Lang:     s.Lang,
+		Lang:     s.lang,
 		Sources:  srcMap,
 		Settings: s,
 	}
@@ -233,7 +233,7 @@ func (c *Compiler) buildSettings(opts []Option) *Settings {
 		panic("unexpected solc version")
 	}
 	s := &Settings{
-		Lang:       defaultLang,
+		lang:       defaultLang,
 		Remappings: defaultRemappings,
 		Optimizer:  defaultOptimizer,
 		ViaIR:      defaultViaIR,

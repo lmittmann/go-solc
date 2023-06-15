@@ -13,12 +13,12 @@ type Contract struct {
 	DeployCode []byte // The bytecode to deploy the contract.
 }
 
-// Lang represents the language of the source code.
-type Lang string
+// lang represents the language of the source code.
+type lang string
 
 const (
-	LangSolidity Lang = "Solidity"
-	LangYul      Lang = "Yul"
+	langSolidity lang = "Solidity"
+	langYul      lang = "Yul"
 )
 
 // EVMVersion represents the EVM version to compile for.
@@ -35,7 +35,7 @@ const (
 )
 
 type input struct {
-	Lang     Lang           `json:"language"`
+	Lang     lang           `json:"language"`
 	Sources  map[string]src `json:"sources"`
 	Settings *Settings      `json:"settings"`
 }
@@ -48,7 +48,7 @@ type src struct {
 
 // Settings for the compilation.
 type Settings struct {
-	Lang            Lang                           `json:"-"`
+	lang            lang                           `json:"-"`
 	Remappings      []string                       `json:"remappings,omitempty"`
 	Optimizer       *Optimizer                     `json:"optimizer"`
 	ViaIR           bool                           `json:"viaIR,omitempty"`
