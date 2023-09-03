@@ -18,7 +18,7 @@ Example test:
 ```go
 // contract_test.go
 func TestContract(t *testing.T) {
-    c := &solc.Compiler{Version: "0.8.18"}
+    c := solc.New("0.8.21")
     contract, err := c.Compile("src", "Test",
         solc.WithOptimizer(&solc.Optimizer{Enabled: true, Runs: 999999}),
     )
@@ -31,7 +31,7 @@ Example directory structure:
 workspace/
 ├── .solc/
 │   └── bin/ # cached solc binaries
-│       └── solc_v0.8.18
+│       └── solc_v0.8.21
 ├── src/
 │   └── test.sol
 ├── contract_test.go
