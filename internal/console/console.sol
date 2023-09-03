@@ -1229,17 +1229,3 @@ library console {
         _log(abi.encodeWithSelector(0x5f26562d, arg0, arg1, arg2, arg3, arg4, arg5));
     }
 }
-
-library state {
-    function dumpMemory() internal view {
-        assembly {
-            pop(staticcall(gas(), 0x000000000000000000000000000000000baDC0DE, 0, mload(0x40), 0, 0))
-        }
-    }
-
-    function dumpMemory(uint start, uint length) internal view {
-        assembly {
-            pop(staticcall(gas(), 0x000000000000000000000000000000000baDC0DE, start, length, 0, 0))
-        }
-    }
-}

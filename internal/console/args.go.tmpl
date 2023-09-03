@@ -1,14 +1,8 @@
 package console
 
-import (
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/common"
-)
+import "github.com/ethereum/go-ethereum/accounts/abi"
 
-// Address of the debug contract.
-var addr = common.HexToAddress("{{ .Addr }}")
-
-var args = map[[4]byte]abi.Arguments{
+var Args = map[[4]byte]abi.Arguments{
 {{- range .Args }}
 	{{ printf "{0x%02x, 0x%02x, 0x%02x, 0x%02x}"
 		(index .Sel 0)

@@ -25,17 +25,3 @@ library console {
     }
     {{- end }}
 }
-
-library state {
-    function dumpMemory() internal view {
-        assembly {
-            pop(staticcall(gas(), {{ .Addr }}, 0, mload(0x40), 0, 0))
-        }
-    }
-
-    function dumpMemory(uint start, uint length) internal view {
-        assembly {
-            pop(staticcall(gas(), {{ .Addr }}, start, length, 0, 0))
-        }
-    }
-}

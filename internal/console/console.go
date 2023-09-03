@@ -3,7 +3,6 @@ package console
 
 import (
 	_ "embed"
-	"fmt"
 	"math/big"
 	"testing"
 
@@ -13,10 +12,13 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 )
 
-// Source of the debug contracts.
+// Source of the console contracts.
 //
 //go:embed console.sol
 var Src string
+
+// Address of the console contract.
+var Addr = common.HexToAddress("0x000000000000000000000000000000000baDC0DE")
 
 var (
 	argString  = abi.Argument{Type: abi.Type{T: abi.StringTy}}
@@ -39,16 +41,14 @@ type tracer struct {
 }
 
 func (t *tracer) CaptureEnter(typ vm.OpCode, from common.Address, to common.Address, input []byte, gas uint64, value *big.Int) {
-	if to != addr || len(input) < 4 {
+	if to != Addr || len(input) < 4 {
 		return
 	}
 
 	sel := ([4]byte)(input[:4])
-	args, ok := args[sel]
+	args, ok := Args[sel]
 	if ok {
 		t.logConsole(args, input[4:])
-	} else {
-		t.logMemory(input)
 	}
 }
 
@@ -76,17 +76,4 @@ func (t *tracer) logConsole(args abi.Arguments, data []byte) {
 	}
 
 	t.tb.Log(params...)
-}
-
-func (t *tracer) logMemory(data []byte) {
-	var str string
-	for i := 0; i < len(data); i += 32 {
-		end := i + 32
-		if end > len(data) {
-			end = len(data)
-		}
-		str += fmt.Sprintf("\n%4x | %x", i, data[i:end])
-	}
-
-	t.tb.Log("Memory:", str)
 }
