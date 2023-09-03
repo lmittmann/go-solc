@@ -4,20 +4,9 @@ import "github.com/ethereum/go-ethereum/accounts/abi"
 
 var Args = map[[4]byte]abi.Arguments{
 {{- range .Args }}
-	{{ printf "{0x%02x, 0x%02x, 0x%02x, 0x%02x}"
-		(index .Sel 0)
-		(index .Sel 1)
-		(index .Sel 2)
-		(index .Sel 3)
-	-}}
+	{{ slice (printf "%#v" .Sel) 8 -}}
 	: {
-		{{- range $index, $arg := .Args -}}
-		{{- if gt $index 0 }}, {{ end -}}
-		{{ printf "arg%s%s"
-			(toUpper (slice $arg 0 1))
-			(slice $arg 1)
-		}}
-		{{- end -}}
+		{{- .ArgTypes -}}
 	},
 {{- end }}
 }

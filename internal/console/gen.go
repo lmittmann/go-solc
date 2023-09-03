@@ -5,7 +5,6 @@ package main
 import (
 	"embed"
 	"fmt"
-	"math"
 	"os"
 	"strings"
 	"text/template"
@@ -15,8 +14,13 @@ import (
 	"github.com/lmittmann/solc/internal/console"
 )
 
-//go:embed *.tmpl
-var templates embed.FS
+var (
+	//go:embed *.tmpl
+	templates embed.FS
+
+	logArgs    = []string{"string", "uint", "address", "bool"}
+	logArgsSet = setOf(logArgs)
+)
 
 func main() {
 	if err := run(); err != nil {
@@ -27,12 +31,7 @@ func main() {
 
 func run() error {
 	// parse templates
-	tmpl, err := template.New("").
-		Funcs(template.FuncMap{
-			"toUpper":   strings.ToUpper,
-			"typeToArg": typeToArg,
-		}).
-		ParseFS(templates, "*")
+	tmpl, err := template.New("").ParseFS(templates, "*")
 	if err != nil {
 		return err
 	}
@@ -40,14 +39,14 @@ func run() error {
 	signatures := genSignatures()
 
 	args := make([]Args, len(signatures))
-	for i, sig := range signatures {
-		h := crypto.Keccak256([]byte("log(" + strings.Join(sig, ",") + ")"))
-		var sel [4]byte
-		copy(sel[:], h)
+	for i, a := range signatures {
+		sig := "log(" + strings.Join(a, ",") + ")"
+		sel := ([4]byte)(crypto.Keccak256([]byte(sig))[:4])
 
 		args[i] = Args{
+			Sig:  sig,
 			Sel:  sel,
-			Args: sig,
+			Args: a,
 		}
 	}
 
@@ -63,6 +62,52 @@ func run() error {
 		return err
 	}
 	return nil
+}
+
+func genSignatures() [][]string {
+	signatures := [][]string{
+		{},
+		{"string"},
+		{"uint"},
+		{"int"},
+		{"bool"},
+		{"address"},
+		{"bytes"},
+		{"bytes1"}, {"bytes2"}, {"bytes3"}, {"bytes4"},
+		{"bytes5"}, {"bytes6"}, {"bytes7"}, {"bytes8"},
+		{"bytes9"}, {"bytes10"}, {"bytes11"}, {"bytes12"},
+		{"bytes13"}, {"bytes14"}, {"bytes15"}, {"bytes16"},
+		{"bytes17"}, {"bytes18"}, {"bytes19"}, {"bytes20"},
+		{"bytes21"}, {"bytes22"}, {"bytes23"}, {"bytes24"},
+		{"bytes25"}, {"bytes26"}, {"bytes27"}, {"bytes28"},
+		{"bytes29"}, {"bytes30"}, {"bytes31"}, {"bytes32"},
+	}
+
+	for _, arg0 := range logArgs {
+		for _, arg1 := range logArgs {
+			signatures = append(signatures, []string{arg0, arg1})
+		}
+	}
+
+	for _, arg0 := range logArgs {
+		for _, arg1 := range logArgs {
+			for _, arg2 := range logArgs {
+				signatures = append(signatures, []string{arg0, arg1, arg2})
+			}
+		}
+	}
+
+	for _, arg0 := range logArgs {
+		for _, arg1 := range logArgs {
+			for _, arg2 := range logArgs {
+				for _, arg3 := range logArgs {
+					signatures = append(signatures, []string{arg0, arg1, arg2, arg3})
+				}
+			}
+		}
+	}
+
+	return signatures
 }
 
 func gen(name string, tmpl *template.Template, model *model) error {
@@ -83,58 +128,64 @@ type model struct {
 }
 
 type Args struct {
+	Sig  string  // function signature
 	Sel  [4]byte // 4 bytes selector
 	Args []string
 }
 
-func typeToArg(t string) string {
-	switch t {
-	case "string", "bytes":
-		return t + " memory"
-	default:
-		return t
-	}
-}
-
-func genSignatures() [][]string {
-	s := []string{"string", "uint", "int", "address", "bool"}
-
-	signatures := permutations(s, 1)
-
-	perms2 := permutations(s, 2)
-	signatures = append(signatures, perms2...)
-
-	perms3 := permutations(s, 3)
-	signatures = append(signatures, perms3...)
-
-	for _, perms := range [][][]string{perms2, perms3} {
-		for _, perm := range perms {
-			p := make([]string, len(perm)*2)
-			for i, typ := range perm {
-				p[i*2] = "string"
-				p[i*2+1] = typ
-			}
-			signatures = append(signatures, p)
+func (a Args) SignatureArgs() string {
+	args := make([]string, len(a.Args))
+	for i, arg := range a.Args {
+		switch arg {
+		case "string", "bytes":
+			args[i] = fmt.Sprintf("%s memory p%d", arg, i)
+		default:
+			args[i] = fmt.Sprintf("%s p%d", arg, i)
 		}
 	}
-
-	return signatures
+	return strings.Join(args, ", ")
 }
 
-// permutations returns all permutations of the elements in the given slice for
-// the given size.
-func permutations(s []string, size int) [][]string {
-	var perms [][]string
+func (a Args) LogTypeSignature() string {
+	return fmt.Sprintf("log%s(%s)", strings.Title(a.Args[0]), a.SignatureArgs())
+}
 
-	for i := 0; i < int(math.Pow(float64(len(s)), float64(size))); i++ {
-		perm := make([]string, size)
+func (a Args) LogSignature() string {
+	return fmt.Sprintf("log(%s)", a.SignatureArgs())
+}
 
-		n := i
-		for j := range perm {
-			perm[j] = s[n%len(s)]
-			n /= len(s)
-		}
-		perms = append(perms, perm)
+func (a Args) IsLogType() bool {
+	return len(a.Args) == 1
+}
+
+func (a Args) IsLog() bool {
+	if len(a.Args) == 0 || len(a.Args) >= 2 {
+		return true
 	}
-	return perms
+	_, ok := logArgsSet[a.Args[0]]
+	return ok
+}
+
+func (a Args) Params() string {
+	params := make([]string, len(a.Args))
+	for i := range a.Args {
+		params[i] = fmt.Sprintf("p%d", i)
+	}
+	return strings.Join(params, ", ")
+}
+
+func (a Args) ArgTypes() string {
+	args := make([]string, len(a.Args))
+	for i, arg := range a.Args {
+		args[i] = fmt.Sprintf("arg%s", strings.Title(arg))
+	}
+	return strings.Join(args, ", ")
+}
+
+func setOf[T comparable](s []T) map[T]struct{} {
+	m := make(map[T]struct{}, len(s))
+	for _, v := range s {
+		m[v] = struct{}{}
+	}
+	return m
 }

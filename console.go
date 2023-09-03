@@ -1,12 +1,13 @@
 package solc
 
 import (
+	"fmt"
 	"math/big"
+	"strings"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/lmittmann/solc/internal/console"
 )
@@ -40,14 +41,16 @@ func (ct *consoleTracer) log(args abi.Arguments, data []byte) {
 		return
 	}
 
+	strVals := make([]string, len(params))
 	for i, p := range params {
 		switch p := p.(type) {
 		case []byte:
-			params[i] = hexutil.Bytes(p)
+			strVals[i] = fmt.Sprintf("%x", p)
+		default:
+			strVals[i] = fmt.Sprint(p)
 		}
 	}
-
-	ct.tb.Log(params...)
+	ct.tb.Log(strings.Join(strVals, " "))
 }
 
 func (*consoleTracer) CaptureTxStart(uint64) {}

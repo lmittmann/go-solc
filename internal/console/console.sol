@@ -3,1229 +3,1535 @@
 pragma solidity >=0.5.0 <0.9.0;
 
 library console {
-    function _log(bytes memory data) internal view {
+    function _castLogViewToPure(function(bytes memory) internal view fnIn) internal pure returns (function(bytes memory) internal pure fnOut) {
         assembly {
-            pop(staticcall(gas(), 0x000000000000000000000000000000000baDC0DE, add(data, 0x20), mload(data), 0, 0))
+            fnOut := fnIn
         }
     }
 
-    function log(string memory arg0) internal view {
-        _log(abi.encodeWithSelector(0x41304fac, arg0));
+    function _logView(bytes memory data) internal view {
+        assembly {
+            pop(staticcall(gas(), 0x000000000000000000636F6e736F6c652e6c6f67, add(data, 0x20), mload(data), 0, 0))
+        }
     }
 
-    function log(uint arg0) internal view {
-        _log(abi.encodeWithSelector(0xf5b1bba9, arg0));
+    function _log(bytes memory data) internal pure {
+        _castLogViewToPure(_logView)(data);
     }
 
-    function log(int arg0) internal view {
-        _log(abi.encodeWithSelector(0x4e0c1d1d, arg0));
+    function logString(string memory p0) internal pure {
+        _log(abi.encodeWithSignature("log(string)", p0));
     }
 
-    function log(address arg0) internal view {
-        _log(abi.encodeWithSelector(0x2c2ecbc2, arg0));
+    function logUint(uint p0) internal pure {
+        _log(abi.encodeWithSignature("log(uint)", p0));
     }
 
-    function log(bool arg0) internal view {
-        _log(abi.encodeWithSelector(0x32458eed, arg0));
+    function logInt(int p0) internal pure {
+        _log(abi.encodeWithSignature("log(int)", p0));
     }
 
-    function log(string memory arg0, string memory arg1) internal view {
-        _log(abi.encodeWithSelector(0x4b5c4277, arg0, arg1));
+    function logBool(bool p0) internal pure {
+        _log(abi.encodeWithSignature("log(bool)", p0));
     }
 
-    function log(uint arg0, string memory arg1) internal view {
-        _log(abi.encodeWithSelector(0x0fa3f345, arg0, arg1));
+    function logAddress(address p0) internal pure {
+        _log(abi.encodeWithSignature("log(address)", p0));
     }
 
-    function log(int arg0, string memory arg1) internal view {
-        _log(abi.encodeWithSelector(0x8c111120, arg0, arg1));
+    function logBytes(bytes memory p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes)", p0));
     }
 
-    function log(address arg0, string memory arg1) internal view {
-        _log(abi.encodeWithSelector(0x759f86bb, arg0, arg1));
+    function logBytes1(bytes1 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes1)", p0));
     }
 
-    function log(bool arg0, string memory arg1) internal view {
-        _log(abi.encodeWithSelector(0x8feac525, arg0, arg1));
+    function logBytes2(bytes2 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes2)", p0));
     }
 
-    function log(string memory arg0, uint arg1) internal view {
-        _log(abi.encodeWithSelector(0x9710a9d0, arg0, arg1));
+    function logBytes3(bytes3 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes3)", p0));
     }
 
-    function log(uint arg0, uint arg1) internal view {
-        _log(abi.encodeWithSelector(0x6c0f6980, arg0, arg1));
+    function logBytes4(bytes4 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes4)", p0));
     }
 
-    function log(int arg0, uint arg1) internal view {
-        _log(abi.encodeWithSelector(0xafbf7a55, arg0, arg1));
+    function logBytes5(bytes5 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes5)", p0));
     }
 
-    function log(address arg0, uint arg1) internal view {
-        _log(abi.encodeWithSelector(0x2243cfa3, arg0, arg1));
+    function logBytes6(bytes6 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes6)", p0));
     }
 
-    function log(bool arg0, uint arg1) internal view {
-        _log(abi.encodeWithSelector(0x364b6a92, arg0, arg1));
+    function logBytes7(bytes7 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes7)", p0));
     }
 
-    function log(string memory arg0, int arg1) internal view {
-        _log(abi.encodeWithSelector(0xaf7faa38, arg0, arg1));
+    function logBytes8(bytes8 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes8)", p0));
     }
 
-    function log(uint arg0, int arg1) internal view {
-        _log(abi.encodeWithSelector(0x004cbc02, arg0, arg1));
+    function logBytes9(bytes9 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes9)", p0));
     }
 
-    function log(int arg0, int arg1) internal view {
-        _log(abi.encodeWithSelector(0x9d234170, arg0, arg1));
+    function logBytes10(bytes10 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes10)", p0));
     }
 
-    function log(address arg0, int arg1) internal view {
-        _log(abi.encodeWithSelector(0x4540f62e, arg0, arg1));
+    function logBytes11(bytes11 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes11)", p0));
     }
 
-    function log(bool arg0, int arg1) internal view {
-        _log(abi.encodeWithSelector(0x37d0c417, arg0, arg1));
+    function logBytes12(bytes12 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes12)", p0));
     }
 
-    function log(string memory arg0, address arg1) internal view {
-        _log(abi.encodeWithSelector(0x319af333, arg0, arg1));
+    function logBytes13(bytes13 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes13)", p0));
     }
 
-    function log(uint arg0, address arg1) internal view {
-        _log(abi.encodeWithSelector(0x58eb860c, arg0, arg1));
+    function logBytes14(bytes14 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes14)", p0));
     }
 
-    function log(int arg0, address arg1) internal view {
-        _log(abi.encodeWithSelector(0x151ace75, arg0, arg1));
+    function logBytes15(bytes15 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes15)", p0));
     }
 
-    function log(address arg0, address arg1) internal view {
-        _log(abi.encodeWithSelector(0xdaf0d4aa, arg0, arg1));
+    function logBytes16(bytes16 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes16)", p0));
     }
 
-    function log(bool arg0, address arg1) internal view {
-        _log(abi.encodeWithSelector(0x853c4849, arg0, arg1));
+    function logBytes17(bytes17 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes17)", p0));
     }
 
-    function log(string memory arg0, bool arg1) internal view {
-        _log(abi.encodeWithSelector(0xc3b55635, arg0, arg1));
+    function logBytes18(bytes18 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes18)", p0));
     }
 
-    function log(uint arg0, bool arg1) internal view {
-        _log(abi.encodeWithSelector(0x1e6dd4ec, arg0, arg1));
+    function logBytes19(bytes19 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes19)", p0));
     }
 
-    function log(int arg0, bool arg1) internal view {
-        _log(abi.encodeWithSelector(0x3cdc2cfd, arg0, arg1));
+    function logBytes20(bytes20 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes20)", p0));
     }
 
-    function log(address arg0, bool arg1) internal view {
-        _log(abi.encodeWithSelector(0x75b605d3, arg0, arg1));
+    function logBytes21(bytes21 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes21)", p0));
     }
 
-    function log(bool arg0, bool arg1) internal view {
-        _log(abi.encodeWithSelector(0x2a110e83, arg0, arg1));
+    function logBytes22(bytes22 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes22)", p0));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x2ced7cef, arg0, arg1, arg2));
+    function logBytes23(bytes23 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes23)", p0));
     }
 
-    function log(uint arg0, string memory arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x3f57c295, arg0, arg1, arg2));
+    function logBytes24(bytes24 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes24)", p0));
     }
 
-    function log(int arg0, string memory arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xed7bb057, arg0, arg1, arg2));
+    function logBytes25(bytes25 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes25)", p0));
     }
 
-    function log(address arg0, string memory arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xfb772265, arg0, arg1, arg2));
+    function logBytes26(bytes26 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes26)", p0));
     }
 
-    function log(bool arg0, string memory arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xb076847f, arg0, arg1, arg2));
+    function logBytes27(bytes27 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes27)", p0));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xa3f5c739, arg0, arg1, arg2));
+    function logBytes28(bytes28 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes28)", p0));
     }
 
-    function log(uint arg0, uint arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x7d690ee6, arg0, arg1, arg2));
+    function logBytes29(bytes29 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes29)", p0));
     }
 
-    function log(int arg0, uint arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x874341d4, arg0, arg1, arg2));
+    function logBytes30(bytes30 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes30)", p0));
     }
 
-    function log(address arg0, uint arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xbaf96849, arg0, arg1, arg2));
+    function logBytes31(bytes31 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes31)", p0));
     }
 
-    function log(bool arg0, uint arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xc8397eb0, arg0, arg1, arg2));
+    function logBytes32(bytes32 p0) internal pure {
+        _log(abi.encodeWithSignature("log(bytes32)", p0));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x7d7f123d, arg0, arg1, arg2));
+    function log() internal pure {
+        _log(abi.encodeWithSignature("log()"));
     }
 
-    function log(uint arg0, int arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xb23d4c4e, arg0, arg1, arg2));
+    function log(string memory p0) internal pure {
+        _log(abi.encodeWithSignature("log(string)", p0));
     }
 
-    function log(int arg0, int arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x5d1c963c, arg0, arg1, arg2));
+    function log(uint p0) internal pure {
+        _log(abi.encodeWithSignature("log(uint)", p0));
     }
 
-    function log(address arg0, int arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x608441c8, arg0, arg1, arg2));
+    function log(bool p0) internal pure {
+        _log(abi.encodeWithSignature("log(bool)", p0));
     }
 
-    function log(bool arg0, int arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x5e1bb8df, arg0, arg1, arg2));
+    function log(address p0) internal pure {
+        _log(abi.encodeWithSignature("log(address)", p0));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xe0e9ad4f, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1) internal pure {
+        _log(abi.encodeWithSignature("log(string,string)", p0, p1));
     }
 
-    function log(uint arg0, address arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xce83047b, arg0, arg1, arg2));
+    function log(string memory p0, uint p1) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint)", p0, p1));
     }
 
-    function log(int arg0, address arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xcd1e9c73, arg0, arg1, arg2));
+    function log(string memory p0, address p1) internal pure {
+        _log(abi.encodeWithSignature("log(string,address)", p0, p1));
     }
 
-    function log(address arg0, address arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x007150be, arg0, arg1, arg2));
+    function log(string memory p0, bool p1) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool)", p0, p1));
     }
 
-    function log(bool arg0, address arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xde9a9270, arg0, arg1, arg2));
+    function log(uint p0, string memory p1) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string)", p0, p1));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xe298f47d, arg0, arg1, arg2));
+    function log(uint p0, uint p1) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint)", p0, p1));
     }
 
-    function log(uint arg0, bool arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x8b0e14fe, arg0, arg1, arg2));
+    function log(uint p0, address p1) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address)", p0, p1));
     }
 
-    function log(int arg0, bool arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0xc19366c9, arg0, arg1, arg2));
+    function log(uint p0, bool p1) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool)", p0, p1));
     }
 
-    function log(address arg0, bool arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x212255cc, arg0, arg1, arg2));
+    function log(address p0, string memory p1) internal pure {
+        _log(abi.encodeWithSignature("log(address,string)", p0, p1));
     }
 
-    function log(bool arg0, bool arg1, string memory arg2) internal view {
-        _log(abi.encodeWithSelector(0x2555fa46, arg0, arg1, arg2));
+    function log(address p0, uint p1) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint)", p0, p1));
     }
 
-    function log(string memory arg0, string memory arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xf362ca59, arg0, arg1, arg2));
+    function log(address p0, address p1) internal pure {
+        _log(abi.encodeWithSignature("log(address,address)", p0, p1));
     }
 
-    function log(uint arg0, string memory arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x5b6de83f, arg0, arg1, arg2));
+    function log(address p0, bool p1) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool)", p0, p1));
     }
 
-    function log(int arg0, string memory arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x78c140f6, arg0, arg1, arg2));
+    function log(bool p0, string memory p1) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string)", p0, p1));
     }
 
-    function log(address arg0, string memory arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x1cdaf28a, arg0, arg1, arg2));
+    function log(bool p0, uint p1) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint)", p0, p1));
     }
 
-    function log(bool arg0, string memory arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xc0382aac, arg0, arg1, arg2));
+    function log(bool p0, address p1) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address)", p0, p1));
     }
 
-    function log(string memory arg0, uint arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x969cdd03, arg0, arg1, arg2));
+    function log(bool p0, bool p1) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool)", p0, p1));
     }
 
-    function log(uint arg0, uint arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xe7820a74, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,string)", p0, p1, p2));
     }
 
-    function log(int arg0, uint arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x0624f2bc, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,uint)", p0, p1, p2));
     }
 
-    function log(address arg0, uint arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x8786135e, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,address)", p0, p1, p2));
     }
 
-    function log(bool arg0, uint arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x3b5c03e0, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,bool)", p0, p1, p2));
     }
 
-    function log(string memory arg0, int arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x0802c098, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,string)", p0, p1, p2));
     }
 
-    function log(uint arg0, int arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xfbe37ba2, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,uint)", p0, p1, p2));
     }
 
-    function log(int arg0, int arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xae854543, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,address)", p0, p1, p2));
     }
 
-    function log(address arg0, int arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x84974271, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,bool)", p0, p1, p2));
     }
 
-    function log(bool arg0, int arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xfcce3470, arg0, arg1, arg2));
+    function log(string memory p0, address p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,string)", p0, p1, p2));
     }
 
-    function log(string memory arg0, address arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x07c81217, arg0, arg1, arg2));
+    function log(string memory p0, address p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,uint)", p0, p1, p2));
     }
 
-    function log(uint arg0, address arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x884343aa, arg0, arg1, arg2));
+    function log(string memory p0, address p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,address)", p0, p1, p2));
     }
 
-    function log(int arg0, address arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x865e5356, arg0, arg1, arg2));
+    function log(string memory p0, address p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,bool)", p0, p1, p2));
     }
 
-    function log(address arg0, address arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x6c366d72, arg0, arg1, arg2));
+    function log(string memory p0, bool p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,string)", p0, p1, p2));
     }
 
-    function log(bool arg0, address arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xeb704baf, arg0, arg1, arg2));
+    function log(string memory p0, bool p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,uint)", p0, p1, p2));
     }
 
-    function log(string memory arg0, bool arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x291bb9d0, arg0, arg1, arg2));
+    function log(string memory p0, bool p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,address)", p0, p1, p2));
     }
 
-    function log(uint arg0, bool arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x5a4d9922, arg0, arg1, arg2));
+    function log(string memory p0, bool p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,bool)", p0, p1, p2));
     }
 
-    function log(int arg0, bool arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xfa16dd57, arg0, arg1, arg2));
+    function log(uint p0, string memory p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,string)", p0, p1, p2));
     }
 
-    function log(address arg0, bool arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0x2c468d15, arg0, arg1, arg2));
+    function log(uint p0, string memory p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,uint)", p0, p1, p2));
     }
 
-    function log(bool arg0, bool arg1, uint arg2) internal view {
-        _log(abi.encodeWithSelector(0xb01365bb, arg0, arg1, arg2));
+    function log(uint p0, string memory p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,address)", p0, p1, p2));
     }
 
-    function log(string memory arg0, string memory arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x51995dc8, arg0, arg1, arg2));
+    function log(uint p0, string memory p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,bool)", p0, p1, p2));
     }
 
-    function log(uint arg0, string memory arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x11e05ec0, arg0, arg1, arg2));
+    function log(uint p0, uint p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,string)", p0, p1, p2));
     }
 
-    function log(int arg0, string memory arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x2d9f4ed4, arg0, arg1, arg2));
+    function log(uint p0, uint p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,uint)", p0, p1, p2));
     }
 
-    function log(address arg0, string memory arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x8df4ff74, arg0, arg1, arg2));
+    function log(uint p0, uint p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,address)", p0, p1, p2));
     }
 
-    function log(bool arg0, string memory arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xd3069618, arg0, arg1, arg2));
+    function log(uint p0, uint p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,bool)", p0, p1, p2));
     }
 
-    function log(string memory arg0, uint arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x90a43f7f, arg0, arg1, arg2));
+    function log(uint p0, address p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,string)", p0, p1, p2));
     }
 
-    function log(uint arg0, uint arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x1165ee62, arg0, arg1, arg2));
+    function log(uint p0, address p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,uint)", p0, p1, p2));
     }
 
-    function log(int arg0, uint arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xa5234df9, arg0, arg1, arg2));
+    function log(uint p0, address p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,address)", p0, p1, p2));
     }
 
-    function log(address arg0, uint arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x77cd0619, arg0, arg1, arg2));
+    function log(uint p0, address p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,bool)", p0, p1, p2));
     }
 
-    function log(bool arg0, uint arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x551a6b86, arg0, arg1, arg2));
+    function log(uint p0, bool p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,string)", p0, p1, p2));
     }
 
-    function log(string memory arg0, int arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xcb35c626, arg0, arg1, arg2));
+    function log(uint p0, bool p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,uint)", p0, p1, p2));
     }
 
-    function log(uint arg0, int arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xa3a095c6, arg0, arg1, arg2));
+    function log(uint p0, bool p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,address)", p0, p1, p2));
     }
 
-    function log(int arg0, int arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x8332d451, arg0, arg1, arg2));
+    function log(uint p0, bool p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,bool)", p0, p1, p2));
     }
 
-    function log(address arg0, int arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xc592ff1d, arg0, arg1, arg2));
+    function log(address p0, string memory p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,string)", p0, p1, p2));
     }
 
-    function log(bool arg0, int arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x58ce4395, arg0, arg1, arg2));
+    function log(address p0, string memory p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,uint)", p0, p1, p2));
     }
 
-    function log(string memory arg0, address arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x81e30361, arg0, arg1, arg2));
+    function log(address p0, string memory p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,address)", p0, p1, p2));
     }
 
-    function log(uint arg0, address arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x30f34e68, arg0, arg1, arg2));
+    function log(address p0, string memory p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,bool)", p0, p1, p2));
     }
 
-    function log(int arg0, address arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x46aac74b, arg0, arg1, arg2));
+    function log(address p0, uint p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,string)", p0, p1, p2));
     }
 
-    function log(address arg0, address arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xfe37b76a, arg0, arg1, arg2));
+    function log(address p0, uint p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,uint)", p0, p1, p2));
     }
 
-    function log(bool arg0, address arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xe3b3ccf3, arg0, arg1, arg2));
+    function log(address p0, uint p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,address)", p0, p1, p2));
     }
 
-    function log(string memory arg0, bool arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x64689487, arg0, arg1, arg2));
+    function log(address p0, uint p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,bool)", p0, p1, p2));
     }
 
-    function log(uint arg0, bool arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x4aa01822, arg0, arg1, arg2));
+    function log(address p0, address p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,string)", p0, p1, p2));
     }
 
-    function log(int arg0, bool arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x06519661, arg0, arg1, arg2));
+    function log(address p0, address p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,uint)", p0, p1, p2));
     }
 
-    function log(address arg0, bool arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0x3b0a751a, arg0, arg1, arg2));
+    function log(address p0, address p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,address)", p0, p1, p2));
     }
 
-    function log(bool arg0, bool arg1, int arg2) internal view {
-        _log(abi.encodeWithSelector(0xddc0e399, arg0, arg1, arg2));
+    function log(address p0, address p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,bool)", p0, p1, p2));
     }
 
-    function log(string memory arg0, string memory arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x95ed0195, arg0, arg1, arg2));
+    function log(address p0, bool p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,string)", p0, p1, p2));
     }
 
-    function log(uint arg0, string memory arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x1f90f24a, arg0, arg1, arg2));
+    function log(address p0, bool p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,uint)", p0, p1, p2));
     }
 
-    function log(int arg0, string memory arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x17d40093, arg0, arg1, arg2));
+    function log(address p0, bool p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,address)", p0, p1, p2));
     }
 
-    function log(address arg0, string memory arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xf08744e8, arg0, arg1, arg2));
+    function log(address p0, bool p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,bool)", p0, p1, p2));
     }
 
-    function log(bool arg0, string memory arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x9591b953, arg0, arg1, arg2));
+    function log(bool p0, string memory p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,string)", p0, p1, p2));
     }
 
-    function log(string memory arg0, uint arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xe3849f79, arg0, arg1, arg2));
+    function log(bool p0, string memory p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,uint)", p0, p1, p2));
     }
 
-    function log(uint arg0, uint arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xbe33491b, arg0, arg1, arg2));
+    function log(bool p0, string memory p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,address)", p0, p1, p2));
     }
 
-    function log(int arg0, uint arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xd24dae06, arg0, arg1, arg2));
+    function log(bool p0, string memory p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,bool)", p0, p1, p2));
     }
 
-    function log(address arg0, uint arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x97eca394, arg0, arg1, arg2));
+    function log(bool p0, uint p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,string)", p0, p1, p2));
     }
 
-    function log(bool arg0, uint arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xc4d23507, arg0, arg1, arg2));
+    function log(bool p0, uint p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,uint)", p0, p1, p2));
     }
 
-    function log(string memory arg0, int arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x9e9c2daa, arg0, arg1, arg2));
+    function log(bool p0, uint p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,address)", p0, p1, p2));
     }
 
-    function log(uint arg0, int arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xd57e3b17, arg0, arg1, arg2));
+    function log(bool p0, uint p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,bool)", p0, p1, p2));
     }
 
-    function log(int arg0, int arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xa520803a, arg0, arg1, arg2));
+    function log(bool p0, address p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,string)", p0, p1, p2));
     }
 
-    function log(address arg0, int arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x62cfddfe, arg0, arg1, arg2));
+    function log(bool p0, address p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,uint)", p0, p1, p2));
     }
 
-    function log(bool arg0, int arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xcffb63fa, arg0, arg1, arg2));
+    function log(bool p0, address p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,address)", p0, p1, p2));
     }
 
-    function log(string memory arg0, address arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xfcec75e0, arg0, arg1, arg2));
+    function log(bool p0, address p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,bool)", p0, p1, p2));
     }
 
-    function log(uint arg0, address arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x7d77a61b, arg0, arg1, arg2));
+    function log(bool p0, bool p1, string memory p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,string)", p0, p1, p2));
     }
 
-    function log(int arg0, address arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x17f520e1, arg0, arg1, arg2));
+    function log(bool p0, bool p1, uint p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,uint)", p0, p1, p2));
     }
 
-    function log(address arg0, address arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x018c84c2, arg0, arg1, arg2));
+    function log(bool p0, bool p1, address p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,address)", p0, p1, p2));
     }
 
-    function log(bool arg0, address arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xd2763667, arg0, arg1, arg2));
+    function log(bool p0, bool p1, bool p2) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,bool)", p0, p1, p2));
     }
 
-    function log(string memory arg0, bool arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x932bbb38, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,string,string)", p0, p1, p2, p3));
     }
 
-    function log(uint arg0, bool arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x424effbf, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(int arg0, bool arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xadba4762, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,string,address)", p0, p1, p2, p3));
     }
 
-    function log(address arg0, bool arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0xf11699ed, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(bool arg0, bool arg1, address arg2) internal view {
-        _log(abi.encodeWithSelector(0x1078f68d, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xb0e0f9b5, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(uint arg0, string memory arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x46a7d0ce, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(int arg0, string memory arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x788abffe, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(address arg0, string memory arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xcf020fb1, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,address,string)", p0, p1, p2, p3));
     }
 
-    function log(bool arg0, string memory arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xdbb4c247, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xf102ee05, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,address,address)", p0, p1, p2, p3));
     }
 
-    function log(uint arg0, uint arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x67570ff7, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(int arg0, uint arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x52fe2d64, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(address arg0, uint arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xe54ae144, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(bool arg0, uint arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x1badc9eb, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xe0755e0a, arg0, arg1, arg2));
+    function log(string memory p0, string memory p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,string,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(uint arg0, int arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xdd9e529e, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,string,string)", p0, p1, p2, p3));
     }
 
-    function log(int arg0, int arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xbde5e063, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(address arg0, int arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x0a8ed0c4, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,string,address)", p0, p1, p2, p3));
     }
 
-    function log(bool arg0, int arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x97121c3b, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xc91d5ed4, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(uint arg0, address arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x7ad0128e, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(int arg0, address arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x83c53d77, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(address arg0, address arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xf2a66286, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(bool arg0, address arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x18c9c746, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x850b7ad6, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(uint arg0, bool arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xd5ceace0, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,address,address)", p0, p1, p2, p3));
     }
 
-    function log(int arg0, bool arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x6f9fac3e, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(address arg0, bool arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0xeb830c92, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(bool arg0, bool arg1, bool arg2) internal view {
-        _log(abi.encodeWithSelector(0x50709698, arg0, arg1, arg2));
+    function log(string memory p0, uint p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, string memory arg3) internal view {
-        _log(abi.encodeWithSelector(0xde68f20a, arg0, arg1, arg2, arg3));
+    function log(string memory p0, uint p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, string memory arg3) internal view {
-        _log(abi.encodeWithSelector(0x6c98dae2, arg0, arg1, arg2, arg3));
+    function log(string memory p0, uint p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,uint,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, string memory arg3) internal view {
-        _log(abi.encodeWithSelector(0x9c0b795b, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, string memory arg3) internal view {
-        _log(abi.encodeWithSelector(0x245986f2, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, string memory arg3) internal view {
-        _log(abi.encodeWithSelector(0xa826caeb, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, uint arg3) internal view {
-        _log(abi.encodeWithSelector(0x9fd009f5, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, uint arg3) internal view {
-        _log(abi.encodeWithSelector(0xa0c4b225, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, uint arg3) internal view {
-        _log(abi.encodeWithSelector(0x4adab6cf, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, uint arg3) internal view {
-        _log(abi.encodeWithSelector(0x8f624be9, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, uint arg3) internal view {
-        _log(abi.encodeWithSelector(0x34cb308d, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, int arg3) internal view {
-        _log(abi.encodeWithSelector(0xc62de92d, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, int arg3) internal view {
-        _log(abi.encodeWithSelector(0xbecac5d6, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, int arg3) internal view {
-        _log(abi.encodeWithSelector(0x9d7a8fa3, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, int arg3) internal view {
-        _log(abi.encodeWithSelector(0x3f53aa0f, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, int arg3) internal view {
-        _log(abi.encodeWithSelector(0x77aa2da7, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, address arg3) internal view {
-        _log(abi.encodeWithSelector(0x6d572f44, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, address arg3) internal view {
-        _log(abi.encodeWithSelector(0xbb7235e9, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, address arg3) internal view {
-        _log(abi.encodeWithSelector(0x1bedd700, arg0, arg1, arg2, arg3));
+    function log(string memory p0, address p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,address,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, address arg3) internal view {
-        _log(abi.encodeWithSelector(0xaabc9a31, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, address arg3) internal view {
-        _log(abi.encodeWithSelector(0xe0625b29, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, bool arg3) internal view {
-        _log(abi.encodeWithSelector(0x2c1754ed, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, bool arg3) internal view {
-        _log(abi.encodeWithSelector(0xe99f82cf, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, bool arg3) internal view {
-        _log(abi.encodeWithSelector(0x36bf479a, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, bool arg3) internal view {
-        _log(abi.encodeWithSelector(0x5f15d28c, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, bool arg3) internal view {
-        _log(abi.encodeWithSelector(0x3f8a701d, arg0, arg1, arg2, arg3));
+    function log(string memory p0, bool p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, string memory arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x06c7d71b, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, string memory arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xc84e37f7, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, string memory arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x3515e492, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, string memory arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x0849bceb, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, string memory arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x118190c1, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, uint arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x1d3050da, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, uint arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x6826f79f, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, uint arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x32fd78dc, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, uint arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x91afbd10, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(string memory p0, bool p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(string,bool,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, uint arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xed284717, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, int arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xa650cd63, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, int arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x120536be, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, int arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x25515418, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, int arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x44fb4b1d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, int arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x0a643f4b, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, address arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x31dd5ba8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, address arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xd61d8a11, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, address arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x63ba3065, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, address arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xfcb965f8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, address arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x740f4763, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, bool arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xe72c38f6, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, bool arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x7d2eb995, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, bool arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x6683227c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, bool arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0x6c3819b8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, bool arg3, string memory arg4, string memory arg5) internal view {
-        _log(abi.encodeWithSelector(0xfdc99cc4, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, string memory p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,string,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, string memory arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xe8b4014f, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, string memory arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xe6d29858, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, string memory arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x89b09054, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, string memory arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x5f9a3f4f, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, string memory arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x8622c0c6, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, uint arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x9f020995, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, uint arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x69c73483, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, uint arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x44f25837, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, uint arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x5a72faa4, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, uint arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xe4bdd3a7, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, int arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x657c4ca9, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, int arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x0d711612, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, int arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x153dc672, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, int arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x9e1a26fc, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, int arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x55ea7b73, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, address arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x8922ea69, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, uint p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,uint,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, address arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xcd2158a8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, address arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xf36b6917, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, address arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x34ec1c83, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, address arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x8dba749c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, bool arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x85867cb0, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, bool arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xc437d928, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, bool arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x68b356db, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, bool arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0xddf679d0, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, bool arg3, string memory arg4, uint arg5) internal view {
-        _log(abi.encodeWithSelector(0x87f6ded8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, string memory arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x3b2668ee, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, string memory arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x4e620fb5, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, string memory arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x11a49dec, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, string memory arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xa99dfb6f, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, string memory arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xfadf8aec, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, uint arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x0e77ebd7, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, uint arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xaac50017, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, address p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,address,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, uint arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xb86694bc, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, uint arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x69a92360, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, uint arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x3c40327c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, int arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xdad7206d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, int arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x7373185c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, int arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x2d5adeaf, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, int arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xc186e9b0, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, int arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xecec40d6, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, address arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xf98e9db8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, address arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xadeb7880, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, address arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x2bd440ca, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, address arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x880c4b78, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, address arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x4c885dbd, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, bool arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xb8b0b335, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, bool arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xee3a7680, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, bool arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xb92e0b49, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(uint p0, bool p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(uint,bool,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, bool arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0xc8b64eff, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, bool arg3, string memory arg4, int arg5) internal view {
-        _log(abi.encodeWithSelector(0x4ac42e92, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, string memory arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xc377ab16, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, string memory arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xc4eacdc9, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, string memory arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x1ce317db, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, string memory arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x591a013d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, string memory arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xf952b1b3, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, uint arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x400987fe, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, uint arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xdcc27a9c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, uint arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x156a1a80, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, uint arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x4a1400a8, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, uint arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x2db52e65, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, int arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x7769b20c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, int arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xc856fb8d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, int arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xf7c7e802, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, int arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x94068315, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, string memory p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,string,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, int arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x4c055522, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, address arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x91eeef3c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, address arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x721d46ae, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, address arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x7bd0fc2d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, address arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x1c3d2638, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, address arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x91195451, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, bool arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xede5edd0, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, bool arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x58ae1c34, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, bool arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0x00a0bd0c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, bool arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xdf58a546, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, bool arg3, string memory arg4, address arg5) internal view {
-        _log(abi.encodeWithSelector(0xd7caf17a, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, string memory arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x7a2523ce, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, string memory arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x4ed2534d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, string memory arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x9c3dcc60, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, string memory arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x6b6af959, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, string memory arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xf63ff92b, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, uint p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,uint,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, uint arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x9ab8c9db, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, uint arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x7b6c6d05, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, uint arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xc0d40f13, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, uint arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xf505fa24, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,string,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, uint arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x72b7c444, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,uint,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, int arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x2f820640, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,uint,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, int arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xb15ea667, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,uint,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, int arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x3bb0ee2a, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,uint,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, int arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xf6df9b13, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,address,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, int arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xf506838c, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,address,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, address arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xc2c193a0, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,address,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, address arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x8bb6919d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,address,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, address arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x3090ee03, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,bool,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, address arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x18200c3e, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,bool,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, address arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x7459a50b, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,bool,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, string memory arg1, string memory arg2, bool arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x05ec6bfb, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, address p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,address,bool,bool)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, uint arg1, string memory arg2, bool arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x43750478, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, bool p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,string,string)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, int arg1, string memory arg2, bool arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xbe7eb38d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, bool p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,string,uint)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, address arg1, string memory arg2, bool arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0xd2c05fb3, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, bool p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,string,address)", p0, p1, p2, p3));
     }
 
-    function log(string memory arg0, bool arg1, string memory arg2, bool arg3, string memory arg4, bool arg5) internal view {
-        _log(abi.encodeWithSelector(0x5f26562d, arg0, arg1, arg2, arg3, arg4, arg5));
+    function log(address p0, bool p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,string,bool)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,uint,string)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,uint,uint)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,uint,address)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,uint,bool)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,address,string)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,address,uint)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,address,address)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,address,bool)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,bool,string)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,bool,uint)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,bool,address)", p0, p1, p2, p3));
+    }
+
+    function log(address p0, bool p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(address,bool,bool,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,string,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,string,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,string,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,string,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,uint,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,uint,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,uint,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,uint,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,address,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,address,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,address,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,address,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,bool,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,bool,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,bool,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, string memory p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,string,bool,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,string,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,string,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,string,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,string,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,uint,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,uint,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,uint,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,uint,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,address,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,address,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,address,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,address,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,bool,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,bool,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,bool,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, uint p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,uint,bool,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,string,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,string,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,string,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,string,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,uint,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,uint,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,uint,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,uint,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,address,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,address,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,address,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,address,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,bool,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,bool,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,bool,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, address p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,address,bool,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, string memory p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,string,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, string memory p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,string,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, string memory p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,string,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, string memory p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,string,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, uint p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,uint,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, uint p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,uint,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, uint p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,uint,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, uint p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,uint,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, address p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,address,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, address p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,address,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, address p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,address,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, address p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,address,bool)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, bool p2, string memory p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,bool,string)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, bool p2, uint p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,bool,uint)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, bool p2, address p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,bool,address)", p0, p1, p2, p3));
+    }
+
+    function log(bool p0, bool p1, bool p2, bool p3) internal pure {
+        _log(abi.encodeWithSignature("log(bool,bool,bool,bool)", p0, p1, p2, p3));
     }
 }
