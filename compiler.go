@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/lmittmann/solc/debug"
+	"github.com/lmittmann/solc/internal/console"
 	"github.com/lmittmann/solc/internal/mod"
 	"golang.org/x/sync/singleflight"
 )
@@ -35,11 +35,17 @@ type cacheItem struct {
 }
 
 type Compiler struct {
-	Version string // Solc version
+	version string // Solc version
 
 	once        sync.Once
 	solcAbsPath string // solc absolute path
 	err         error  // initialization error
+}
+
+func New(version string) *Compiler {
+	return &Compiler{
+		version: version,
+	}
 }
 
 // init initializes the compiler.
@@ -50,14 +56,8 @@ func (c *Compiler) init() {
 		return
 	}
 
-	// create ".solc/bin/" dir if it doesn't exist
-	if err := os.MkdirAll(filepath.Join(mod.Root, binPath), perm); err != nil {
-		c.err = fmt.Errorf("solc: %w", err)
-		return
-	}
-
 	// check or download solc version
-	c.solcAbsPath, c.err = checkSolc(c.Version)
+	c.solcAbsPath, c.err = checkSolc(c.version)
 }
 
 // Compile all contracts in the given directory and return the contract code of
@@ -126,9 +126,9 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 		return nil, err
 	}
 
-	// add debug.sol to src map
-	srcMap["debug.sol"] = src{
-		Content: debug.Src,
+	// add console.sol to src map
+	srcMap["console.sol"] = src{
+		Content: console.Src,
 	}
 
 	// build settings
@@ -153,7 +153,7 @@ func (c *Compiler) runWithCache(baseDir string, in *input) (*output, error) {
 	h.Sum(hash[:0])
 
 	// run with cache
-	cacheKey := fmt.Sprintf("%s_%x", c.Version, hash)
+	cacheKey := fmt.Sprintf("%s_%x", c.version, hash)
 	out, err, _ := group.Do(cacheKey, func() (any, error) {
 		// check cache
 		cacheMux.RLock()
@@ -228,7 +228,7 @@ func buildSrcMap(absDir string) (map[string]src, error) {
 
 // buildSettings builds the default settings and applies all options.
 func (c *Compiler) buildSettings(opts []Option) *Settings {
-	defaultEVMVersion, ok := defaultEVMVersions[c.Version]
+	defaultEVMVersion, ok := defaultEVMVersions[c.version]
 	if !ok {
 		panic("unexpected solc version")
 	}
