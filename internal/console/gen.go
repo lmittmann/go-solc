@@ -133,6 +133,10 @@ type Args struct {
 	Args []string
 }
 
+func (a Args) SelString() string {
+	return fmt.Sprintf("{0x%02x, 0x%02x, 0x%02x, 0x%02x}", a.Sel[0], a.Sel[1], a.Sel[2], a.Sel[3])
+}
+
 func (a Args) SignatureArgs() string {
 	args := make([]string, len(a.Args))
 	for i, arg := range a.Args {

@@ -4,8 +4,7 @@ import "github.com/ethereum/go-ethereum/accounts/abi"
 
 var Args = map[[4]byte]abi.Arguments{
 {{- range .Args }}
-	{{ slice (printf "%#v" .Sel) 8 -}}
-	: {
+	{{ .SelString }}: {
 		{{- .ArgTypes -}}
 	},
 {{- end }}
