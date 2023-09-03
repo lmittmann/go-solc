@@ -1,5 +1,5 @@
 //go:generate go run gen.go
-package debug
+package console
 
 import (
 	_ "embed"
