@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/lmittmann/solc/internal/mod"
+	"github.com/lmittmann/go-solc/internal/mod"
 )
 
 func TestModRoot(t *testing.T) {

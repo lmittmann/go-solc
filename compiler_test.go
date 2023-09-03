@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"github.com/lmittmann/solc"
+	"github.com/lmittmann/go-solc"
 )
 
 func TestCompile(t *testing.T) {

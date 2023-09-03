@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/lmittmann/solc"
+	"github.com/lmittmann/go-solc"
 	"github.com/lmittmann/w3"
 	"github.com/lmittmann/w3/w3types"
 	"github.com/lmittmann/w3/w3vm"

@@ -1,4 +1,4 @@
-module github.com/lmittmann/solc
+module github.com/lmittmann/go-solc
 
 go 1.21
 
