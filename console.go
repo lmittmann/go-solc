@@ -12,7 +12,7 @@ import (
 	"github.com/lmittmann/solc/internal/console"
 )
 
-// NewConsole returns a new [vm.EVMLogger] that logs calls to console.sol to the
+// NewConsole returns a [vm.EVMLogger] that logs calls of console.sol to the
 // given testing.TB.
 func NewConsole(tb testing.TB) vm.EVMLogger {
 	return &consoleTracer{tb: tb}
@@ -44,8 +44,12 @@ func (ct *consoleTracer) log(args abi.Arguments, data []byte) {
 	strVals := make([]string, len(params))
 	for i, p := range params {
 		switch p := p.(type) {
-		case []byte:
-			strVals[i] = fmt.Sprintf("%x", p)
+		case []byte,
+			[1]byte, [2]byte, [3]byte, [4]byte, [5]byte, [6]byte, [7]byte, [8]byte,
+			[9]byte, [10]byte, [11]byte, [12]byte, [13]byte, [14]byte, [15]byte, [16]byte,
+			[17]byte, [18]byte, [19]byte, [20]byte, [21]byte, [22]byte, [23]byte, [24]byte,
+			[25]byte, [26]byte, [27]byte, [28]byte, [29]byte, [30]byte, [31]byte, [32]byte:
+			strVals[i] = fmt.Sprintf("0x%x", p)
 		default:
 			strVals[i] = fmt.Sprint(p)
 		}
