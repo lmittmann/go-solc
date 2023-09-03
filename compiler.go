@@ -56,12 +56,6 @@ func (c *Compiler) init() {
 		return
 	}
 
-	// create ".solc/bin/" dir if it doesn't exist
-	if err := os.MkdirAll(filepath.Join(mod.Root, binPath), perm); err != nil {
-		c.err = fmt.Errorf("solc: %w", err)
-		return
-	}
-
 	// check or download solc version
 	c.solcAbsPath, c.err = checkSolc(c.version)
 }

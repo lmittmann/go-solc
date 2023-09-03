@@ -2,11 +2,13 @@ package solc
 
 import (
 	"crypto/sha256"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/lmittmann/solc/internal/mod"
 	"golang.org/x/sync/singleflight"
@@ -19,7 +21,7 @@ var (
 )
 
 // checkSolc checks for the existence of the solc binary at
-// "{MOD_ROOT}/.solc/bin/solc_{version}" and atempts to download it if it does
+// "{MOD_ROOT}/.solc/bin/solc_{version}" and attempts to download it if it does
 // not exist yet.
 //
 // The version string must be in the format "0.8.17".
@@ -29,37 +31,41 @@ func checkSolc(version string) (string, error) {
 		return "", fmt.Errorf("solc: unknown version %q", version)
 	}
 
+	if err := makeBinDir(); err != nil {
+		return "", err
+	}
+
 	absSolcPath := filepath.Join(mod.Root, binPath, fmt.Sprintf("solc_v%s", version))
 
-	f, err := os.Open(absSolcPath)
-	if err == nil {
-		// solc_{version} binary exists
-		defer f.Close()
-		return absSolcPath, verifyChecksum(version, f, v)
-	}
-
-	// download solc_{version}
-	for try := 0; try < maxTries; try++ {
-		_, err, _ = dg.Do(version, func() (any, error) {
-			return nil, downloadSolc(version, absSolcPath, v)
-		})
-		if err == nil {
-			break
+	_, err, _ := dg.Do(version, func() (any, error) {
+		if _, err := os.Stat(absSolcPath); errors.Is(err, os.ErrNotExist) {
+			// download solc_{version}
+			var (
+				try int
+				err error
+			)
+			for ; try < maxTries && (try == 0 || err != nil); try++ {
+				err = downloadSolc(version, absSolcPath, v)
+			}
+			if try >= maxTries {
+				return "", fmt.Errorf("solc: failed to download solc %q: %w", version, err)
+			}
 		}
-	}
+
+		// solc_{version} binary exists
+		f, err := os.Open(absSolcPath)
+		if err != nil {
+			return "", err
+		}
+		defer f.Close()
+
+		return nil, verifyChecksum(version, f, v)
+	})
+
 	if err != nil {
 		return "", err
 	}
-
-	// solc_{version} binary exists
-	f, err = os.Open(absSolcPath)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
-
-	return absSolcPath, verifyChecksum(version, f, v)
-
+	return absSolcPath, nil
 }
 
 func verifyChecksum(version string, r io.Reader, v solcVersion) error {
@@ -100,3 +106,13 @@ func downloadSolc(version, path string, v solcVersion) error {
 	}
 	return nil
 }
+
+// makeBinDir creates the directory ".solc/bin/" if it doesn't exist yet.
+func makeBinDir() error {
+	binDirMux.Lock()
+	defer binDirMux.Unlock()
+
+	return os.MkdirAll(filepath.Join(mod.Root, binPath), perm)
+}
+
+var binDirMux sync.Mutex
