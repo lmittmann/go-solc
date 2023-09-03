@@ -15,7 +15,7 @@ import (
 
 // Source of the debug contracts.
 //
-//go:embed debug.sol
+//go:embed console.sol
 var Src string
 
 var (

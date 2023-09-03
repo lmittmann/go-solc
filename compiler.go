@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/lmittmann/solc/debug"
+	"github.com/lmittmann/solc/internal/console"
 	"github.com/lmittmann/solc/internal/mod"
 	"golang.org/x/sync/singleflight"
 )
@@ -126,9 +126,9 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 		return nil, err
 	}
 
-	// add debug.sol to src map
-	srcMap["debug.sol"] = src{
-		Content: debug.Src,
+	// add console.sol to src map
+	srcMap["console.sol"] = src{
+		Content: console.Src,
 	}
 
 	// build settings

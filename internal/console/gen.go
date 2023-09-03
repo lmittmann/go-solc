@@ -62,7 +62,7 @@ func run() error {
 		return err
 	}
 
-	if err := genDebugSol(tmpl, model); err != nil {
+	if err := genConsoleSol(tmpl, model); err != nil {
 		return err
 	}
 
@@ -86,8 +86,8 @@ func genDebugGo(tmpl *template.Template, model *model) error {
 	return nil
 }
 
-func genDebugSol(tmpl *template.Template, model *model) error {
-	const name = "debug.sol"
+func genConsoleSol(tmpl *template.Template, model *model) error {
+	const name = "console.sol"
 
 	f, err := os.Create(name)
 	if err != nil {
