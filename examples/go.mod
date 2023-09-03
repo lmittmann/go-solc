@@ -3,9 +3,11 @@ module examples
 go 1.21
 
 require (
-	github.com/lmittmann/solc v0.0.0
+	github.com/lmittmann/go-solc v0.0.0
 	github.com/lmittmann/w3 v0.14.0
 )
+
+replace github.com/lmittmann/go-solc => ../
 
 require (
 	github.com/DataDog/zstd v1.5.2 // indirect
@@ -65,5 +67,3 @@ require (
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
 )
-
-replace github.com/lmittmann/solc => ../

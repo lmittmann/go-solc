@@ -1,18 +1,18 @@
-# `solc`: Go Bindings for the Solidity Compiler
+# `go-solc`: Go Bindings for the Solidity Compiler
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/lmittmann/solc.svg)](https://pkg.go.dev/github.com/lmittmann/solc)
-[![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/solc)](https://goreportcard.com/report/github.com/lmittmann/solc)
+[![Go Reference](https://pkg.go.dev/badge/github.com/lmittmann/go-solc.svg)](https://pkg.go.dev/github.com/lmittmann/go-solc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lmittmann/go-solc)](https://goreportcard.com/report/github.com/lmittmann/go-solc)
 
-`solc` provides an easy way to compile Solidity contracts from Go.
+`go-solc` provides an easy way to compile Solidity contracts from Go.
 
 ```
-go get github.com/lmittmann/solc
+go get github.com/lmittmann/go-solc
 ```
 
 
 ## Getting Started
 
-`solc` automatically downloads the specified version of the Solidity compiler from [`binaries.soliditylang.org`](https://binaries.soliditylang.org) and caches it at `.solc/bin/`.
+`go-solc` automatically downloads the specified version of the Solidity compiler from https://binaries.soliditylang.org and caches it at `.solc/bin/`.
 
 Example test:
 ```go

@@ -11,7 +11,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/lmittmann/solc/internal/console"
+	"github.com/lmittmann/go-solc/internal/console"
 )
 
 var (
