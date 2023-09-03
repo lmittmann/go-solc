@@ -20,6 +20,14 @@ jobs:
           test -z $(cat fmt.out)
       - name: go vet
         run: go vet ./...
+      - name: go fmt examples
+        run: |
+          cd examples/
+          gofmt -s -d . > fmt.out
+          cat fmt.out
+          test -z $(cat fmt.out)
+      - name: go vet examples
+        run: cd examples/ && go vet ./...
 
   test:
     name: Test
@@ -31,5 +39,5 @@ jobs:
           go-version: '1.21'
       - name: go test
         run: go test ./...
-      - name: go test ./examples
+      - name: go test examples
         run: cd examples/ && go test ./...
