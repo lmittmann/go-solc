@@ -39,6 +39,6 @@ workspace/
 └── go.sum
 ```
 
-> **Warning**
+> [!WARNING]
 >
 > This package is pre-1.0. There might be breaking changes between minor versions.
