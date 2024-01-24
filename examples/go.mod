@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/lmittmann/go-solc v0.0.0
-	github.com/lmittmann/w3 v0.14.5
+	github.com/lmittmann/w3 v0.14.6
 )
 
 replace github.com/lmittmann/go-solc => ../
