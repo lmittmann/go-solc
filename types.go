@@ -25,6 +25,7 @@ const (
 type EVMVersion string
 
 const (
+	EVMVersionCancun     EVMVersion = "cancun"
 	EVMVersionShanghai   EVMVersion = "shanghai"
 	EVMVersionParis      EVMVersion = "paris"
 	EVMVersionLondon     EVMVersion = "london"
