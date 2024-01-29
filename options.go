@@ -74,6 +74,7 @@ var (
 		"0.8.21": EVMVersionShanghai,
 		"0.8.22": EVMVersionShanghai,
 		"0.8.23": EVMVersionShanghai,
+		"0.8.24": EVMVersionShanghai,
 	}
 )
 
