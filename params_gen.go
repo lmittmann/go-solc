@@ -8,7 +8,10 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"slices"
 	"text/template"
+
+	"github.com/lmittmann/go-solc/internal/version"
 )
 
 var (
@@ -23,11 +26,19 @@ func main() {
 			BaseURL:     solcBaseURL + "linux-amd64/",
 			Fn:          "params_linux_amd64.go",
 			BuildTarget: "linux && amd64",
+			MinVersion:  "0.5.0",
 		},
 		{
 			BaseURL:     solcBaseURL + "macosx-amd64/",
 			Fn:          "params_darwin_amd64.go",
 			BuildTarget: "darwin && amd64",
+			MinVersion:  "0.5.0",
+		},
+		{
+			BaseURL:     solcBaseURL + "macosx-amd64/",
+			Fn:          "params_darwin_arm64.go",
+			BuildTarget: "darwin && arm64",
+			MinVersion:  "0.8.24",
 		},
 	}
 
@@ -68,16 +79,12 @@ func gen(target *target) error {
 	defer f.Close()
 
 	// execute template
-	filteredBuilds := make([]*build, 0)
-	for _, build := range list.Builds {
-		if major, minor, _, err := parseVersion(build.Version); err != nil {
-			return err
-		} else if major == 0 && minor <= 4 {
-			continue
-		}
-		filteredBuilds = append(filteredBuilds, build)
+	model := &model{
+		Target: target,
+		Builds: slices.DeleteFunc(list.Builds, func(build *build) bool {
+			return version.Compare(build.Version, target.MinVersion) < 0
+		}),
 	}
-	model := &model{target, filteredBuilds}
 	if err := tmpl.Execute(f, model); err != nil {
 		return err
 	}
@@ -93,6 +100,7 @@ type target struct {
 	BaseURL     string
 	Fn          string
 	BuildTarget string
+	MinVersion  string
 }
 
 type build struct {
