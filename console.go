@@ -14,6 +14,8 @@ import (
 
 // NewConsole returns a [vm.EVMLogger] that logs calls of console.sol to the
 // given testing.TB.
+//
+// To use console logging in your Solidity contract, import "console.sol".
 func NewConsole(tb testing.TB) vm.EVMLogger {
 	return &consoleTracer{tb: tb}
 }
