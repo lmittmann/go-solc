@@ -10,7 +10,7 @@ import (
 	"github.com/lmittmann/w3/w3vm"
 )
 
-var c = solc.New("0.8.21")
+var c = solc.New("0.8.25")
 
 func TestNewConsole(t *testing.T) {
 	// compile contract
