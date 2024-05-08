@@ -3,7 +3,7 @@ module github.com/lmittmann/go-solc
 go 1.22
 
 require (
-	github.com/ethereum/go-ethereum v1.14.0
+	github.com/ethereum/go-ethereum v1.14.2
 	github.com/google/go-cmp v0.6.0
 	golang.org/x/sync v0.7.0
 )
