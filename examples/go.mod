@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/lmittmann/go-solc v0.0.0
-	github.com/lmittmann/w3 v0.16.1
+	github.com/lmittmann/w3 v0.16.2
 )
 
 replace github.com/lmittmann/go-solc => ../
