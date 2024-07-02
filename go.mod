@@ -3,7 +3,7 @@ module github.com/lmittmann/go-solc
 go 1.22
 
 require (
-	github.com/ethereum/go-ethereum v1.14.3
+	github.com/ethereum/go-ethereum v1.14.6
 	github.com/google/go-cmp v0.6.0
 	golang.org/x/sync v0.7.0
 )
@@ -22,6 +22,6 @@ require (
 	github.com/rivo/uniseg v0.4.2 // indirect
 	github.com/supranational/blst v0.3.11 // indirect
 	golang.org/x/crypto v0.22.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
 )
