@@ -7,8 +7,8 @@ on:
   pull_request:
 
 jobs:
-  fmt_vet:
-    name: Fmt & Vet
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
