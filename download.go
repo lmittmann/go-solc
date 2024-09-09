@@ -45,7 +45,7 @@ func checkSolc(version string) (string, error) {
 				err error
 			)
 			for ; try < maxTries && (try == 0 || err != nil); try++ {
-				err = downloadSolc(version, absSolcPath, v)
+				err = downloadSolc(absSolcPath, v)
 			}
 			if try >= maxTries {
 				return "", fmt.Errorf("solc: failed to download solc %q: %w", version, err)
@@ -85,7 +85,7 @@ func verifyChecksum(version string, r io.Reader, v solcVersion) error {
 
 // downloadSolc downloads the solc binary with the given version, writes it to a
 // file at the given path and return its content.
-func downloadSolc(version, path string, v solcVersion) error {
+func downloadSolc(path string, v solcVersion) error {
 	// request compiler
 	resp, err := http.Get(solcBaseURL + v.Path)
 	if err != nil {
