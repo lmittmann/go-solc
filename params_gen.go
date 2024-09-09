@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"slices"
+	"strings"
 	"text/template"
 
 	"github.com/lmittmann/go-solc/internal/version"
@@ -17,7 +18,10 @@ import (
 var (
 	solcBaseURL = "https://binaries.soliditylang.org/"
 
-	tmpl = template.Must(template.New("").Parse(tmplStr))
+	tmpl = template.Must(template.New("").Funcs(template.FuncMap{
+		"replaceAll": strings.ReplaceAll,
+		"last":       func(s []*build) int { return len(s) - 1 },
+	}).Parse(tmplStr))
 )
 
 func main() {
@@ -128,10 +132,10 @@ package solc
 func init() {
 	solcBaseURL = "{{ .Target.BaseURL }}"
 
-	solcVersions = map[string]solcVersion{
+	solcVersions = map[SolcVersion]solcVersion{
 	{{- range .Builds }}
-		{{ $version := (printf "%q:" .Version) -}}
-		{{ printf "%-9s" $version }} {Sha256: [32]byte{
+		{{ $version := (printf "SolcVersion%s:" (replaceAll .Version "." "_")) -}}
+		{{ printf "%-18s" $version }} {Sha256: [32]byte{
 		{{- range $i, $elem := .Sha256 -}}
 			{{- if $i }}, {{ end -}}
 			{{- printf "%#02v" $elem -}}
@@ -139,5 +143,21 @@ func init() {
 		}, Path: "{{ .Path }}"},
 	{{- end }}
 	}
+
+	SolcVersions = []SolcVersion{
+	{{- range .Builds }}
+		{{ printf "SolcVersion%s," (replaceAll .Version "." "_") }}
+	{{- end }}
+	}
 }
+
+const (
+{{- range .Builds }}
+	{{ $version := (printf "%s" .Version) -}}
+	{{ printf "SolcVersion%-6s SolcVersion = %q" (replaceAll .Version "." "_") .Version }}
+{{- end }}
+
+	// Latest version of solc.
+	SolcVersionLatest = SolcVersion{{ replaceAll (index .Builds (last .Builds)).Version "." "_" }}
+)
 `
