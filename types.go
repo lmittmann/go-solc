@@ -9,8 +9,10 @@ import (
 
 // Contract represents a compiled contract.
 type Contract struct {
-	Code       []byte // The bytecode of the contract after deployment.
-	DeployCode []byte // The bytecode to deploy the contract.
+	Runtime     []byte // The runtime bytecode of the contract.
+	Constructor []byte // The constructor bytecode of the contract.
+	Code        []byte // Deprecated: The bytecode of the contract after deployment.
+	DeployCode  []byte // Deprecated: The bytecode to deploy the contract.
 }
 
 // lang represents the language of the source code.

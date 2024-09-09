@@ -79,8 +79,10 @@ func (c *Compiler) Compile(dir, contract string, opts ...Option) (*Contract, err
 		for conName, c := range conMap {
 			if conName == contract {
 				con = &Contract{
-					Code:       c.EVM.DeployedBytecode.Object,
-					DeployCode: c.EVM.Bytecode.Object,
+					Runtime:     c.EVM.DeployedBytecode.Object,
+					Constructor: c.EVM.Bytecode.Object,
+					Code:        c.EVM.DeployedBytecode.Object,
+					DeployCode:  c.EVM.Bytecode.Object,
 				}
 				break
 			}
