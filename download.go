@@ -25,7 +25,7 @@ var (
 // not exist yet.
 //
 // The version string must be in the format "0.8.17".
-func checkSolc(version string) (string, error) {
+func checkSolc(version SolcVersion) (string, error) {
 	v, ok := solcVersions[version]
 	if !ok {
 		return "", fmt.Errorf("solc: unknown version %q", version)
@@ -37,7 +37,7 @@ func checkSolc(version string) (string, error) {
 
 	absSolcPath := filepath.Join(mod.Root, binPath, fmt.Sprintf("solc_v%s", version))
 
-	_, err, _ := dg.Do(version, func() (any, error) {
+	_, err, _ := dg.Do(version.String(), func() (any, error) {
 		if _, err := os.Stat(absSolcPath); errors.Is(err, os.ErrNotExist) {
 			// download solc_{version}
 			var (
@@ -68,7 +68,7 @@ func checkSolc(version string) (string, error) {
 	return absSolcPath, nil
 }
 
-func verifyChecksum(version string, r io.Reader, v solcVersion) error {
+func verifyChecksum(version SolcVersion, r io.Reader, v solcVersion) error {
 	hash := sha256.New()
 	if _, err := io.Copy(hash, r); err != nil {
 		return err
@@ -94,7 +94,7 @@ func downloadSolc(path string, v solcVersion) error {
 	defer resp.Body.Close()
 
 	// create file
-	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0764)
+	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0o0764)
 	if err != nil {
 		return err
 	}

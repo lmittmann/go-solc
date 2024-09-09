@@ -21,7 +21,7 @@ var (
 	// The path within the module root where solc binaries are stored.
 	binPath = ".solc/bin/"
 
-	perm = os.FileMode(0775)
+	perm = os.FileMode(0o0775)
 
 	// global compiler cache
 	group    = new(singleflight.Group)
@@ -35,14 +35,14 @@ type cacheItem struct {
 }
 
 type Compiler struct {
-	version string // Solc version
+	version SolcVersion // Solc version
 
 	once        sync.Once
 	solcAbsPath string // solc absolute path
 	err         error  // initialization error
 }
 
-func New(version string) *Compiler {
+func New(version SolcVersion) *Compiler {
 	return &Compiler{
 		version: version,
 	}
