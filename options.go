@@ -78,6 +78,7 @@ var (
 		SolcVersion0_8_25: EVMVersionCancun,
 		SolcVersion0_8_26: EVMVersionCancun,
 		SolcVersion0_8_27: EVMVersionCancun,
+		SolcVersion0_8_28: EVMVersionCancun,
 	}
 )
 
