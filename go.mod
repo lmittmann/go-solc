@@ -5,7 +5,7 @@ go 1.22
 require (
 	github.com/ethereum/go-ethereum v1.14.8
 	github.com/google/go-cmp v0.6.0
-	golang.org/x/sync v0.8.0
+	golang.org/x/sync v0.10.0
 )
 
 require (
@@ -17,9 +17,7 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
 	github.com/ethereum/c-kzg-4844 v1.0.0 // indirect
 	github.com/holiman/uint256 v1.3.1 // indirect
-	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/mmcloughlin/addchain v0.4.0 // indirect
-	github.com/rivo/uniseg v0.4.2 // indirect
 	github.com/supranational/blst v0.3.11 // indirect
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
