@@ -113,7 +113,10 @@ func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, er
 
 	// check the directory exists
 	if stat, err := os.Stat(baseDir); err != nil || !stat.IsDir() {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
+		return nil, fmt.Errorf("%s is not a directory", baseDir)
 	}
 
 	// get absolute path of base directory
