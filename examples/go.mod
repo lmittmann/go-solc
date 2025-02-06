@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/lmittmann/go-solc v0.0.0
-	github.com/lmittmann/w3 v0.17.2
+	github.com/lmittmann/w3 v0.17.6
 )
 
 replace github.com/lmittmann/go-solc => ../
@@ -22,7 +22,7 @@ require (
 	github.com/deckarep/golang-set/v2 v2.6.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
 	github.com/ethereum/c-kzg-4844 v1.0.0 // indirect
-	github.com/ethereum/go-ethereum v1.14.12 // indirect
+	github.com/ethereum/go-ethereum v1.14.13 // indirect
 	github.com/ethereum/go-verkle v0.1.1-0.20240829091221-dffa7562dbe9 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
@@ -42,6 +42,6 @@ require (
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	golang.org/x/sync v0.11.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
-	golang.org/x/time v0.8.0 // indirect
+	golang.org/x/time v0.10.0 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
 )
