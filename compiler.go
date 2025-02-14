@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/lmittmann/go-solc/internal/console"
@@ -193,9 +194,21 @@ func (c *Compiler) run(baseDir string, in *input) (*output, error) {
 		return nil, err
 	}
 
+	var allowPaths []string
+	allowPaths = append(allowPaths, baseDir)
+
+	for _, remap := range in.Settings.Remappings {
+		parts := strings.Split(remap, "=")
+		if len(parts) != 2 {
+			//invalid remapping
+			continue
+		}
+		allowPaths = append(allowPaths, parts[1])
+	}
+
 	// run solc
 	ex := exec.Command(c.solcAbsPath,
-		"--allow-paths", baseDir,
+		"--allow-paths", strings.Join(allowPaths, ","),
 		"--standard-json",
 	)
 	ex.Stdin = inputBuf
