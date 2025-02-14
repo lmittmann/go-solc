@@ -199,7 +199,7 @@ func (c *Compiler) run(baseDir string, in *input) (*output, error) {
 
 	for _, remap := range in.Settings.Remappings {
 		parts := strings.Split(remap, "=")
-		if(len(parts) != 2) {
+		if len(parts) != 2 {
 			//invalid remapping
 			continue
 		}

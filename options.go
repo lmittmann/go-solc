@@ -109,7 +109,6 @@ func WithEVMVersion(evmVersion EVMVersion) Option {
 	}
 }
 
-
 // WithRemappings configures the compilation [Settings] to set the remmappings options.
 // Each remapping is in standard format {src}={dst}. Destination path needs to be absolute.
 func WithRemappings(remappings []string) Option {
