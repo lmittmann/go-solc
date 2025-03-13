@@ -1,13 +1,11 @@
 module github.com/lmittmann/go-solc
 
-go 1.22.0
-
-toolchain go1.24.0
+go 1.23.0
 
 require (
-	github.com/ethereum/go-ethereum v1.15.1
-	github.com/google/go-cmp v0.6.0
-	golang.org/x/sync v0.11.0
+	github.com/ethereum/go-ethereum v1.15.5
+	github.com/google/go-cmp v0.7.0
+	golang.org/x/sync v0.12.0
 )
 
 require (
