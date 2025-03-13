@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/lmittmann/go-solc v0.0.0
-	github.com/lmittmann/w3 v0.17.8
+	github.com/lmittmann/w3 v0.19.1
 )
 
 replace github.com/lmittmann/go-solc => ../
@@ -30,7 +30,7 @@ require (
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/holiman/bloomfilter/v2 v2.0.3 // indirect
 	github.com/holiman/uint256 v1.3.2 // indirect
-	github.com/mattn/go-runewidth v0.0.15 // indirect
+	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/mmcloughlin/addchain v0.4.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
@@ -40,7 +40,7 @@ require (
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	golang.org/x/crypto v0.32.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/time v0.10.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/time v0.11.0 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
 )
