@@ -36,6 +36,7 @@ const (
 	EVMVersionIstanbul   EVMVersion = "istanbul"
 	EVMVersionPetersburg EVMVersion = "petersburg"
 	EVMVersionByzantium  EVMVersion = "byzantium"
+	EVMVersionOsaka      EVMVersion = "osaka"
 )
 
 type input struct {
