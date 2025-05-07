@@ -135,7 +135,7 @@ func init() {
 	solcVersions = map[Version]solcVersion{
 	{{- range .Builds }}
 		{{ $version := (printf "Version%s:" (replaceAll .Version "." "_")) -}}
-		{{ printf "%-18s" $version }} {Sha256: [32]byte{
+		{{ printf "%-14s" $version }} {Sha256: [32]byte{
 		{{- range $i, $elem := .Sha256 -}}
 			{{- if $i }}, {{ end -}}
 			{{- printf "%#02v" $elem -}}
