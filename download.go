@@ -25,7 +25,7 @@ var (
 // not exist yet.
 //
 // The version string must be in the format "0.8.17".
-func checkSolc(version SolcVersion) (string, error) {
+func checkSolc(version Version) (string, error) {
 	v, ok := solcVersions[version]
 	if !ok {
 		return "", fmt.Errorf("solc: unknown version %q", version)
@@ -68,7 +68,7 @@ func checkSolc(version SolcVersion) (string, error) {
 	return absSolcPath, nil
 }
 
-func verifyChecksum(version SolcVersion, r io.Reader, v solcVersion) error {
+func verifyChecksum(version Version, r io.Reader, v solcVersion) error {
 	hash := sha256.New()
 	if _, err := io.Copy(hash, r); err != nil {
 		return err

@@ -18,7 +18,7 @@ Example test:
 ```go
 // contract_test.go
 func TestContract(t *testing.T) {
-    c := solc.New("0.8.21")
+    c := solc.New(solc.VersionLatest)
     contract, err := c.Compile("src", "Test",
         solc.WithOptimizer(&solc.Optimizer{Enabled: true, Runs: 999999}),
     )

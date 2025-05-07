@@ -36,14 +36,14 @@ type cacheItem struct {
 }
 
 type Compiler struct {
-	version SolcVersion // Solc version
+	version Version // Solc version
 
 	once        sync.Once
 	solcAbsPath string // solc absolute path
 	err         error  // initialization error
 }
 
-func New(version SolcVersion) *Compiler {
+func New(version Version) *Compiler {
 	return &Compiler{
 		version: version,
 	}
