@@ -80,6 +80,7 @@ var (
 		"0.8.27": EVMVersionCancun,
 		"0.8.28": EVMVersionCancun,
 		"0.8.29": EVMVersionCancun,
+		"0.8.30": EVMVersionPrague,
 	}
 )
 

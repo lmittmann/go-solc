@@ -99,8 +99,8 @@ github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0
 github.com/kylelemons/godebug v1.1.0/go.mod h1:9/0rRGxNHcop5bhtWyNeEfOS8JIWk580+fNqagV/RAw=
 github.com/leanovate/gopter v0.2.11 h1:vRjThO1EKPb/1NsDXuDrzldR28RLkBflWYcU9CvzWu4=
 github.com/leanovate/gopter v0.2.11/go.mod h1:aK3tzZP/C+p1m3SPRE4SYZFGP7jjkuSI4f7Xvpt0S9c=
-github.com/lmittmann/w3 v0.19.1 h1:37aRERv9KKLg2U8fMbf+TMDWRdSx3620g67s5+MLbNs=
-github.com/lmittmann/w3 v0.19.1/go.mod h1:DsrUgwIZSvzStNiNsEhCZlgUhbKI7utFJGlOkdQNlH8=
+github.com/lmittmann/w3 v0.19.5 h1:WwVRyIwhRLfIahmpB1EglsB3o1XWsgydgrxIUp5upFQ=
+github.com/lmittmann/w3 v0.19.5/go.mod h1:pN97sGGYGvsbqOYj/ms3Pd+7k/aiK/9OpNcxMmmzSOI=
 github.com/lucasb-eyer/go-colorful v1.2.0 h1:1nnpGOrhyZZuNyfu1QjKiUICQ74+3FNCN69Aj6K7nkY=
 github.com/lucasb-eyer/go-colorful v1.2.0/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i7ruzyGqttikkLy0=
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=

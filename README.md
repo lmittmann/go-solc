@@ -31,7 +31,7 @@ Example directory structure:
 workspace/
 ├── .solc/
 │   └── bin/ # cached solc binaries
-│       └── solc_v0.8.21
+│       └── solc_v0.8.30
 ├── src/
 │   └── test.sol
 ├── contract_test.go
