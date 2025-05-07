@@ -11,7 +11,7 @@ var (
 			"*": {"evm.bytecode.object", "evm.deployedBytecode.object"},
 		},
 	}
-	defaultEVMVersions = map[SolcVersion]EVMVersion{
+	defaultEVMVersions = map[Version]EVMVersion{
 		"0.5.0":  EVMVersionByzantium,
 		"0.5.1":  EVMVersionByzantium,
 		"0.5.2":  EVMVersionByzantium,

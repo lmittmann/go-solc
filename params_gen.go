@@ -132,10 +132,10 @@ package solc
 func init() {
 	solcBaseURL = "{{ .Target.BaseURL }}"
 
-	solcVersions = map[SolcVersion]solcVersion{
+	solcVersions = map[Version]solcVersion{
 	{{- range .Builds }}
-		{{ $version := (printf "SolcVersion%s:" (replaceAll .Version "." "_")) -}}
-		{{ printf "%-18s" $version }} {Sha256: [32]byte{
+		{{ $version := (printf "Version%s:" (replaceAll .Version "." "_")) -}}
+		{{ printf "%-14s" $version }} {Sha256: [32]byte{
 		{{- range $i, $elem := .Sha256 -}}
 			{{- if $i }}, {{ end -}}
 			{{- printf "%#02v" $elem -}}
@@ -144,9 +144,9 @@ func init() {
 	{{- end }}
 	}
 
-	SolcVersions = []SolcVersion{
+	Versions = []Version{
 	{{- range .Builds }}
-		{{ printf "SolcVersion%s," (replaceAll .Version "." "_") }}
+		{{ printf "Version%s," (replaceAll .Version "." "_") }}
 	{{- end }}
 	}
 }
@@ -154,10 +154,10 @@ func init() {
 const (
 {{- range .Builds }}
 	{{ $version := (printf "%s" .Version) -}}
-	{{ printf "SolcVersion%-6s SolcVersion = %q" (replaceAll .Version "." "_") .Version }}
+	{{ printf "Version%-6s Version = %q" (replaceAll .Version "." "_") .Version }}
 {{- end }}
 
 	// Latest version of solc.
-	SolcVersionLatest = SolcVersion{{ replaceAll (index .Builds (last .Builds)).Version "." "_" }}
+	VersionLatest = Version{{ replaceAll (index .Builds (last .Builds)).Version "." "_" }}
 )
 `
