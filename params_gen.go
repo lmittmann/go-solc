@@ -83,18 +83,14 @@ func gen(target *target) error {
 	model := &model{
 		Target: target,
 		Builds: slices.DeleteFunc(list.Builds, func(build *build) bool {
-			return version.Compare(build.Version, target.MinVersion) < 0
+			fmt.Println(build.Version, target.MinVersion)
+			return version.Compare(build.Version, target.MinVersion) < 0 || strings.Contains(build.LongVersion, "-pre")
 		}),
 	}
 	if err := tmpl.Execute(f, model); err != nil {
 		return err
 	}
 	return nil
-}
-
-func parseVersion(v string) (major, minor, patch int, err error) {
-	_, err = fmt.Sscanf(v, "%d.%d.%d", &major, &minor, &patch)
-	return
 }
 
 type target struct {
@@ -104,12 +100,13 @@ type target struct {
 }
 
 type build struct {
-	Path    string  `json:"path"`
-	Version string  `json:"version"`
-	Sha256  bytes32 `json:"sha256"`
+	Path        string  `json:"path"`
+	Version     string  `json:"version"`
+	LongVersion string  `json:"longVersion"`
+	Sha256      bytes32 `json:"sha256"`
 }
 
-// bytes32 is a byte array that is unmarshalled from a hexstring.
+// bytes32 is a byte array that is unmarshaled from a hexstring.
 type bytes32 [32]byte
 
 func (b *bytes32) UnmarshalText(text []byte) error {
